@@ -1,0 +1,1 @@
+/usr/bin/g++ -g -rdynamic CMakeFiles/graphical_visualizer.dir/main.cpp.o -o graphical_visualizer 
