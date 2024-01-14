@@ -1,11 +1,9 @@
 #include <iostream>
 #include <string>
-#include <array>
+#include <vector>
 #include <queue>
 
-const static size_t FRAME_WIDTH = 30;
-const static size_t FRAME_HEIGHT = 30;
-#define frame_matrix std::array<std::array<std::string, FRAME_WIDTH>, FRAME_HEIGHT> 
+#define frame_matrix std::vector<std::string>
 class frame
 {
 private:
