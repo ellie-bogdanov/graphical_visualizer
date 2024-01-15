@@ -70,7 +70,6 @@ public:
             system("cls");
         }
         
-
     }
 
 };
