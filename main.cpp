@@ -3,20 +3,29 @@
 #include <vector>
 #include <queue>
 #include <thread>
+#include <sstream>
 
 #define frame_matrix std::vector<std::string>
 using namespace std::chrono_literals;
+
+
+
 class frame
 {
 private:
+    const static size_t AMOUNT_OF_SECTIONS = 5;
+    const static size_t WIDTH = 10;
+    const static size_t HEIGHT = 10;
+    const static char DELIMITER = ',';
 
     
-   frame_matrix current_frame;
+   frame_matrix current_frame; 
 
 public:
-    frame(const frame_matrix& current_frame) : current_frame(current_frame)
+    frame(const std::string& input)
     {
-        
+        initialize_frame();
+        parse_input(input);   
     }
 
     frame_matrix get_current_frame() const
@@ -35,6 +44,70 @@ public:
         {
             std::cout << line << std::endl;
         }
+    }
+
+    void parse_input(const std::string& input)
+    {
+
+        std::stringstream input_stream(input);
+        std::string input_sections[AMOUNT_OF_SECTIONS];
+        
+        size_t input_sections_index = 0;
+        while(std::getline(input_stream, input_sections[input_sections_index], DELIMITER))
+            ++input_sections_index;
+
+        if(!is_valid_input(input_sections[0], input_sections[1], input_sections[2], input_sections[3], input_sections[4]))
+        {
+            std::cout << "invalid input try again" << std::endl;
+            return;
+        }
+        
+        int height_start = std::stoi(input_sections[0]);
+        int range_start = std::stoi(input_sections[1]);
+        int range_length = std::stoi(input_sections[2]);
+        int height_range = std::stoi(input_sections[3]);
+        char printable_char = input_sections[4][0];        //should alwats be a string of length 1
+
+        for(size_t i = height_start; i < height_start + height_range - 1; ++i)
+        {
+            for(size_t j = range_start; j < range_start + range_length - 1; ++j)
+            {
+                current_frame[i][j] = printable_char;
+            }
+        }
+        
+    }
+
+    void initialize_frame()
+    {
+        for(size_t i = 0; i < HEIGHT; ++i)
+        {
+            std::string line;
+            for(size_t j = 0; j < WIDTH; ++j)
+                line += '#';
+            current_frame.push_back(line);
+        } 
+    }
+    bool is_a_number(std::string number)
+    {
+        for(const char& ch : number)
+        {
+            if(!std::isdigit(ch))
+                return false;
+        }
+        
+        return true;
+    }
+    bool is_valid_input(std::string height_start, std::string range_start, std::string range_length, std::string height_range, std::string printable_char)
+    {
+        if(!is_a_number(height_start) || !is_a_number(height_start) || !is_a_number(height_start) || !is_a_number(height_start))
+        {
+            return false;
+        }
+        if(printable_char.size() != 1)
+            return false;
+
+        return true;
     }
 };
 
@@ -66,8 +139,8 @@ public:
         {
             local_temp_queue.front().print_frame();
             local_temp_queue.pop();
-            std::this_thread::sleep_for(500ms);
-            system("cls");
+            std::this_thread::sleep_for(2000ms);
+            printf("\033c");
         }
         
     }
@@ -77,21 +150,21 @@ public:
 int main(int, char**)
 {
     graphical_visualizer visualizer;
-    int sequence = 1;
-    for(size_t i = 1; i <= 10; ++i)
+
+    size_t amount_of_frames;
+    std::cout << "enter amount of frames: ";
+    std::cin >> amount_of_frames;
+    printf("\033c");
+    for(size_t i = 0; i < amount_of_frames; ++i)
     {
-        frame_matrix current_frame;
-        std::string str;
-        if(sequence % 2 == 0)
-            str = "@#@#@#@#@#";
-        else
-            str = "#@#@#@#@#@";
-        for(size_t j = 1; j <= 10; ++j)
-            current_frame.push_back(str);
-        frame f(current_frame);
-        visualizer.add_frame(f);
-        sequence++;
+        std::string input;
+        std::cout << "enter the parameters ( height_start,range_start,range_length,height_length,char ): " << std::endl;
+        std::cin >> input;
+        printf("\033c");
+        visualizer.add_frame({input});
     }
+
+
     visualizer.print_sequence();
 
     return 0;
