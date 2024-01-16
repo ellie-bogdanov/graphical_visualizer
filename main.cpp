@@ -5,6 +5,13 @@
 #include <thread>
 #include <sstream>
 
+// ANSI escape codes for text color
+#define RESET_COLOR "\033[0m"
+#define RED_COLOR "\033[31m"
+#define GREEN_COLOR "\033[32m"
+#define YELLOW_COLOR "\033[33m"
+#define BLUE_COLOR "\033[34m"
+
 #define frame_matrix std::vector<std::string>
 using namespace std::chrono_literals;
 
@@ -153,9 +160,8 @@ public:
         {            
             local_temp_queue.front().print_frame();
             local_temp_queue.pop();
-            std::cout << std::endl;   
-            std::this_thread::sleep_for(10000ms);
-            printf("\033c");
+            std::this_thread::sleep_for(millis);
+            system("clear");
         }
 
         
@@ -171,9 +177,21 @@ int main(int, char**)
     size_t amount_of_frames;
     std::cout << "enter amount of frames: ";
     std::cin >> amount_of_frames;
-    printf("\033c");
+    system("clear");
     const std::chrono::milliseconds millis_for_frame = 1000ms;
-    
+    std::cout << "choose color: ";
+    std::string color;
+    std::cin >> color;
+    if(color == "red")
+        std::cout << RED_COLOR;
+    else if(color == "green")
+        std::cout << GREEN_COLOR;
+    else if(color == "blue")
+        std::cout << BLUE_COLOR;
+    else if(color == "yellow")
+        std::cout << YELLOW_COLOR;
+    else
+        std::cout << RESET_COLOR;
 
     for(size_t i = 0; i < amount_of_frames; ++i)
     {
@@ -191,11 +209,11 @@ int main(int, char**)
         {
             visualizer.add_frame({input});
         }
-        //printf("\033c");
+        
         
     }
 
-    printf("\033c");
+    system("clear");
     visualizer.print_sequence(millis_for_frame);
 
     return 0;
