@@ -13,19 +13,24 @@ using namespace std::chrono_literals;
 class frame
 {
 private:
-    const static size_t AMOUNT_OF_SECTIONS = 5;
-    const static size_t WIDTH = 10;
-    const static size_t HEIGHT = 10;
-    const static char DELIMITER = ',';
 
     
    frame_matrix current_frame; 
 
 public:
+    const static size_t AMOUNT_OF_SECTIONS = 5;
+    const static size_t WIDTH = 10;
+    const static size_t HEIGHT = 10;
+    const static char DELIMITER = ',';
+    const static char background = '#';
+    bool is_valid;
+
     frame(const std::string& input)
     {
+        
         initialize_frame();
-        parse_input(input);   
+        is_valid = parse_input(input);   
+        
     }
 
     frame_matrix get_current_frame() const
@@ -46,7 +51,7 @@ public:
         }
     }
 
-    void parse_input(const std::string& input)
+    bool parse_input(const std::string& input)
     {
 
         std::stringstream input_stream(input);
@@ -58,17 +63,17 @@ public:
 
         if(!is_valid_input(input_sections[0], input_sections[1], input_sections[2], input_sections[3], input_sections[4]))
         {
-            std::cout << "invalid input try again" << std::endl;
-            return;
+            return false;
         }
         
         int height_start = std::stoi(input_sections[0]);
-        int range_start = std::stoi(input_sections[1]);
-        int range_length = std::stoi(input_sections[2]);
-        int height_range = std::stoi(input_sections[3]);
-        char printable_char = input_sections[4][0];        //should alwats be a string of length 1
+        int height_length = std::stoi(input_sections[1]);
+        int range_start = std::stoi(input_sections[2]);
+        int range_length = std::stoi(input_sections[3]);
+        
+        char printable_char = input_sections[4][0];        //should always be a string of length 1
 
-        for(size_t i = height_start; i < height_start + height_range - 1; ++i)
+        for(size_t i = height_start; i < height_start + height_length - 1; ++i)
         {
             for(size_t j = range_start; j < range_start + range_length - 1; ++j)
             {
@@ -76,6 +81,7 @@ public:
             }
         }
         
+        return true;
     }
 
     void initialize_frame()
@@ -84,7 +90,7 @@ public:
         {
             std::string line;
             for(size_t j = 0; j < WIDTH; ++j)
-                line += '#';
+                line += background;
             current_frame.push_back(line);
         } 
     }
@@ -98,7 +104,7 @@ public:
         
         return true;
     }
-    bool is_valid_input(std::string height_start, std::string range_start, std::string range_length, std::string height_range, std::string printable_char)
+    bool is_valid_input(std::string height_start, std::string height_length, std::string range_start, std::string range_length, std::string printable_char)
     {
         if(!is_a_number(height_start) || !is_a_number(height_start) || !is_a_number(height_start) || !is_a_number(height_start))
         {
@@ -107,6 +113,13 @@ public:
         if(printable_char.size() != 1)
             return false;
 
+        int height_start_int = std::stoi(height_start);
+        int height_length_int = std::stoi(height_length);
+        int range_start_int = std::stoi(range_start);
+        int range_length_int = std::stoi(range_length);
+
+        if(height_start_int < 0 || height_length_int + height_length_int - 1 >= HEIGHT || range_start_int < 0 || range_start_int + range_length_int - 1 >= WIDTH)
+            return false;   
         return true;
     }
 };
@@ -131,17 +144,21 @@ public:
         frame_queue.push(frame);
     }
 
-    void print_sequence()
+    void print_sequence(const std::chrono::milliseconds millis)
     {
         std::queue<frame> local_temp_queue = frame_queue;
-        
+
+
         while(!local_temp_queue.empty())
-        {
+        {            
             local_temp_queue.front().print_frame();
             local_temp_queue.pop();
-            std::this_thread::sleep_for(2000ms);
+            std::cout << std::endl;   
+            std::this_thread::sleep_for(10000ms);
             printf("\033c");
         }
+
+        
         
     }
 
@@ -155,17 +172,31 @@ int main(int, char**)
     std::cout << "enter amount of frames: ";
     std::cin >> amount_of_frames;
     printf("\033c");
+    const std::chrono::milliseconds millis_for_frame = 1000ms;
+    
+
     for(size_t i = 0; i < amount_of_frames; ++i)
     {
+
         std::string input;
-        std::cout << "enter the parameters ( height_start,range_start,range_length,height_length,char ): " << std::endl;
+        std::cout << "enter the parameters ( height_start,height_length,range_start,range_length,char ): " << std::endl;
         std::cin >> input;
-        printf("\033c");
-        visualizer.add_frame({input});
+        frame new_frame(input);
+
+        if(!new_frame.is_valid)
+        {
+            std::cout << "frame number {" << i + 1 << "} failed" << std::endl;
+        }
+        else
+        {
+            visualizer.add_frame({input});
+        }
+        //printf("\033c");
+        
     }
 
-
-    visualizer.print_sequence();
+    printf("\033c");
+    visualizer.print_sequence(millis_for_frame);
 
     return 0;
     
