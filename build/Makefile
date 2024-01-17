@@ -523,6 +523,30 @@ graphical_visualizer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/build
 .PHONY : graphical_visualizer/fast
 
+graphical_visualizer.o: graphical_visualizer.cpp.o
+.PHONY : graphical_visualizer.o
+
+# target to build an object file
+graphical_visualizer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/graphical_visualizer.cpp.o
+.PHONY : graphical_visualizer.cpp.o
+
+graphical_visualizer.i: graphical_visualizer.cpp.i
+.PHONY : graphical_visualizer.i
+
+# target to preprocess a source file
+graphical_visualizer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/graphical_visualizer.cpp.i
+.PHONY : graphical_visualizer.cpp.i
+
+graphical_visualizer.s: graphical_visualizer.cpp.s
+.PHONY : graphical_visualizer.s
+
+# target to generate assembly for a file
+graphical_visualizer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/graphical_visualizer.cpp.s
+.PHONY : graphical_visualizer.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -587,6 +611,9 @@ help:
 	@echo "... NightlyTest"
 	@echo "... NightlyUpdate"
 	@echo "... graphical_visualizer"
+	@echo "... graphical_visualizer.o"
+	@echo "... graphical_visualizer.i"
+	@echo "... graphical_visualizer.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

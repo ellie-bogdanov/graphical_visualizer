@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/graphical_visualizer.dir/graphical_visualizer.cpp.o"
+  "CMakeFiles/graphical_visualizer.dir/graphical_visualizer.cpp.o.d"
   "CMakeFiles/graphical_visualizer.dir/main.cpp.o"
   "CMakeFiles/graphical_visualizer.dir/main.cpp.o.d"
   "graphical_visualizer"

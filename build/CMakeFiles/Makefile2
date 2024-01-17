@@ -837,12 +837,12 @@ CMakeFiles/ContinuousSubmit.dir/clean:
 CMakeFiles/graphical_visualizer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/princess-ellie/Documents/cpp_projects/graphical_visualizer/build/CMakeFiles --progress-num=1,2 "Built target graphical_visualizer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/princess-ellie/Documents/cpp_projects/graphical_visualizer/build/CMakeFiles --progress-num=1,2,3 "Built target graphical_visualizer"
 .PHONY : CMakeFiles/graphical_visualizer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/graphical_visualizer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/princess-ellie/Documents/cpp_projects/graphical_visualizer/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/princess-ellie/Documents/cpp_projects/graphical_visualizer/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/graphical_visualizer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/princess-ellie/Documents/cpp_projects/graphical_visualizer/build/CMakeFiles 0
 .PHONY : CMakeFiles/graphical_visualizer.dir/rule
