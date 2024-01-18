@@ -20,8 +20,8 @@ private:
 
 public:
     const static size_t AMOUNT_OF_SECTIONS = 6;
-    const static size_t WIDTH = 10;
-    const static size_t HEIGHT = 10;
+    const static size_t WIDTH = 30;
+    const static size_t HEIGHT = 30;
     const static char DELIMITER = ',';
     const static char background = '#';
     bool is_valid;
@@ -48,7 +48,7 @@ public:
     graphical_visualizer();
 
     std::queue<frame> get_frame_queue() const;
-    void add_frame(const frame& frame);
+    void add_frame(frame frame);
     void print_sequence(const std::chrono::milliseconds millis);
 
 };

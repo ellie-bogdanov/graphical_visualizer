@@ -134,7 +134,7 @@ std::queue<frame> graphical_visualizer::get_frame_queue() const
     return frame_queue;
 }
 
-void graphical_visualizer::add_frame(const frame& frame)
+void graphical_visualizer::add_frame(frame frame)
 {
     frame_queue.push(frame);
 }

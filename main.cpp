@@ -17,7 +17,7 @@ int main(int, char**)
     std::cout << "enter amount of frames: ";
     std::cin >> amount_of_frames;
     system("clear");
-    const std::chrono::milliseconds millis_for_frame = 1000ms;
+    const std::chrono::milliseconds millis_for_frame = 5000ms;
 
     frame new_frame;
     for(size_t i = 0; i < amount_of_frames; ++i)
