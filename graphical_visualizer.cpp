@@ -36,7 +36,7 @@ void frame::print_frame()
     {
         for(const std::pair<char, std::string>& current_char : line)
         {
-            std::cout << current_char.second << current_char.first;
+            std::cout << colors.at(current_char.second) << current_char.first;
             std::cout << colors.at("reset");
         }
         std::cout << std::endl;

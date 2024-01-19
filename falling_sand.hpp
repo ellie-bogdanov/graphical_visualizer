@@ -5,12 +5,16 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 const char SAND_SHAPE = '@';
-const std::string SAND_DEFAULT_COLOR = "yellow";
+const std::string SAND_DEFAULT_COLOR = "red";
 const int SAND_BLOCK_AMOUNT = 5;
 const int MIN_SAND_LENGTH = 1;
 const int MAX_SAND_LENGTH = 5;
+const std::chrono::milliseconds millis_for_frame = 1000ms;
 
 struct sand_block
 {
@@ -18,6 +22,7 @@ struct sand_block
     int starting_position;
     char shape;
     std::string color;
+    std::vector<std::pair<size_t, size_t>>links;
 
     sand_block();
     sand_block(std::string color);
@@ -38,4 +43,6 @@ public:
     falling_sand();
     void generate_sand_blocks();
     void simulate_fall();
+    
 };
+

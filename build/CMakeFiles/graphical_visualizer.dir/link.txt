@@ -1,1 +1,1 @@
-/usr/bin/g++ -g -rdynamic CMakeFiles/graphical_visualizer.dir/main.cpp.o CMakeFiles/graphical_visualizer.dir/graphical_visualizer.cpp.o -o graphical_visualizer 
+/usr/bin/g++ -g -rdynamic CMakeFiles/graphical_visualizer.dir/main.cpp.o CMakeFiles/graphical_visualizer.dir/graphical_visualizer.cpp.o CMakeFiles/graphical_visualizer.dir/falling_sand.cpp.o -o graphical_visualizer 

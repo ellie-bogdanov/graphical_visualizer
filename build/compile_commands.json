@@ -8,5 +8,10 @@
   "directory": "/home/princess-ellie/Documents/cpp_projects/graphical_visualizer/build",
   "command": "/usr/bin/g++   -g -o CMakeFiles/graphical_visualizer.dir/graphical_visualizer.cpp.o -c /home/princess-ellie/Documents/cpp_projects/graphical_visualizer/graphical_visualizer.cpp",
   "file": "/home/princess-ellie/Documents/cpp_projects/graphical_visualizer/graphical_visualizer.cpp"
+},
+{
+  "directory": "/home/princess-ellie/Documents/cpp_projects/graphical_visualizer/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/graphical_visualizer.dir/falling_sand.cpp.o -c /home/princess-ellie/Documents/cpp_projects/graphical_visualizer/falling_sand.cpp",
+  "file": "/home/princess-ellie/Documents/cpp_projects/graphical_visualizer/falling_sand.cpp"
 }
 ]

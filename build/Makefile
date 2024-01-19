@@ -523,6 +523,30 @@ graphical_visualizer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/build
 .PHONY : graphical_visualizer/fast
 
+falling_sand.o: falling_sand.cpp.o
+.PHONY : falling_sand.o
+
+# target to build an object file
+falling_sand.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/falling_sand.cpp.o
+.PHONY : falling_sand.cpp.o
+
+falling_sand.i: falling_sand.cpp.i
+.PHONY : falling_sand.i
+
+# target to preprocess a source file
+falling_sand.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/falling_sand.cpp.i
+.PHONY : falling_sand.cpp.i
+
+falling_sand.s: falling_sand.cpp.s
+.PHONY : falling_sand.s
+
+# target to generate assembly for a file
+falling_sand.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graphical_visualizer.dir/build.make CMakeFiles/graphical_visualizer.dir/falling_sand.cpp.s
+.PHONY : falling_sand.cpp.s
+
 graphical_visualizer.o: graphical_visualizer.cpp.o
 .PHONY : graphical_visualizer.o
 
@@ -611,6 +635,9 @@ help:
 	@echo "... NightlyTest"
 	@echo "... NightlyUpdate"
 	@echo "... graphical_visualizer"
+	@echo "... falling_sand.o"
+	@echo "... falling_sand.i"
+	@echo "... falling_sand.s"
 	@echo "... graphical_visualizer.o"
 	@echo "... graphical_visualizer.i"
 	@echo "... graphical_visualizer.s"

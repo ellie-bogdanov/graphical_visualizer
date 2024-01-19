@@ -2,7 +2,7 @@
 #include <string>
 #include <chrono>
 
-#include "graphical_visualizer.hpp"
+#include "falling_sand.hpp"
 
 using namespace std::chrono_literals;
 
@@ -10,7 +10,8 @@ using namespace std::chrono_literals;
 
 int main(int, char**)
 {
-
+    falling_sand simualtion;
+    /*
     graphical_visualizer visualizer;
 
     size_t amount_of_frames;
@@ -33,7 +34,7 @@ int main(int, char**)
     visualizer.add_frame(new_frame);
     system("clear");
     visualizer.print_sequence(millis_for_frame);
-
+    */
     return 0;
     
 }
