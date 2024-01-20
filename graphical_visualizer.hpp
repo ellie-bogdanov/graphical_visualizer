@@ -5,6 +5,7 @@
 #include <queue>
 #include <chrono>
 #include <unordered_map>
+#include <map>
 
 using frame_matrix = std::vector<std::vector<std::pair<char, std::string>>>;
 const std::unordered_map<std::string, std::string> colors = {{"red", "\033[31m"}, {"green", "\033[32m"}, {"blue", "\033[34m"}, {"yellow", "\033[33m"}, {"reset", "\033[0m"}};

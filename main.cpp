@@ -12,7 +12,7 @@ using namespace std::chrono_literals;
 int main(int, char**)
 {
     falling_sand simualtion;
-    algorithm_visualizer algo_vis(simualtion.get_field(), SAND_SHAPE, SAND_DEFAULT_COLOR);
+    algorithm_visualizer algo_vis(simualtion.get_field(), SAND_SHAPE);
 
 
     

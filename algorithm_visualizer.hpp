@@ -4,6 +4,7 @@
 #include "falling_sand.hpp"
 #include <queue>
 #include <chrono>
+#include <string>
 
 using namespace std::chrono_literals;
 
@@ -17,12 +18,12 @@ private:
 
 public:
 
-    algorithm_visualizer(frame to_sort, char symbol, std::string color);
+    algorithm_visualizer(frame to_sort, char symbol);
 
-    std::vector<int> frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count);
-    frame_matrix num_to_frame_matrix(std::vector<int> convert_from, char symbol_to_insert, std::string color);
+    std::vector<std::pair<int, std::string>> frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count);
+    frame_matrix num_to_frame_matrix(std::vector<std::pair<int, std::string>> convert_from, char symbol_to_insert);
 
-    void bubble_sort(std::vector<int>& vect_to_sort, char symbol, std::string color);
+    void bubble_sort(std::vector<std::pair<int, std::string>>& vect_to_sort, char symbol);
 
 
 };
