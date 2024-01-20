@@ -18,10 +18,12 @@ private:
     std::string color;
     frame_matrix current_frame; 
 
+    void initialize_frame();
+
 public:
     const static size_t AMOUNT_OF_SECTIONS = 6;
-    const static size_t WIDTH = 30;
-    const static size_t HEIGHT = 30;
+    const static size_t WIDTH = 40;
+    const static size_t HEIGHT = 10;
     const static char DELIMITER = ',';
     const static char background = '#';
     bool is_valid;
@@ -34,7 +36,7 @@ public:
     void set_current_frame(const frame_matrix& new_current_frame);
     void print_frame();
     bool parse_input(const std::string& input);
-    void initialize_frame();
+    
     bool is_valid_input(std::string height_start, std::string height_length, std::string range_start, std::string range_length, std::string printable_char,std::string color);
 
 };

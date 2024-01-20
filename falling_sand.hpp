@@ -11,10 +11,10 @@ using namespace std::chrono_literals;
 
 const char SAND_SHAPE = '@';
 const std::string SAND_DEFAULT_COLOR = "red";
-const int SAND_BLOCK_AMOUNT = 5;
+const int SAND_BLOCK_AMOUNT = 15;
 const int MIN_SAND_LENGTH = 1;
-const int MAX_SAND_LENGTH = 5;
-const std::chrono::milliseconds millis_for_frame = 1000ms;
+const int MAX_SAND_LENGTH = 25;
+const std::chrono::milliseconds millis_for_frame = 500ms;
 
 struct sand_block
 {
