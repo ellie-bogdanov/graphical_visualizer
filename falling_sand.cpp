@@ -15,7 +15,7 @@ int generate_random_start_pos(int sand_length)
 {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, frame::WIDTH - sand_length - 1);
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, frame::WIDTH - sand_length); //potential error might need to add -1
 
     return dist(rng);
 }
@@ -47,7 +47,7 @@ falling_sand::falling_sand()
 {   
     generate_sand_blocks();
     simulate_fall();
-    visualizer.print_sequence(millis_for_frame);
+    visualizer.print_sequence(millis_per_frame_falling_sand);
 }
 
 void falling_sand::generate_sand_blocks()
@@ -93,4 +93,7 @@ void falling_sand::simulate_fall()
     }
 }
 
-
+frame falling_sand::get_field() const
+{
+    return field;
+}

@@ -22,8 +22,8 @@ private:
 
 public:
     const static size_t AMOUNT_OF_SECTIONS = 6;
-    const static size_t WIDTH = 60;
-    const static size_t HEIGHT = 30;
+    const static size_t WIDTH = 30;
+    const static size_t HEIGHT = 20;
     const static char DELIMITER = ',';
     const static char background = '#';
     bool is_valid;
