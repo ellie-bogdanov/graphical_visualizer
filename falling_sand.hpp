@@ -22,10 +22,11 @@ struct sand_block
     int starting_position;
     char shape;
     std::string color;
-    std::vector<std::pair<size_t, size_t>>links;
+    std::vector<std::pair<std::pair<size_t, size_t>, bool>>links;
 
     sand_block();
     sand_block(std::string color);
+    bool are_all_immovable();
 
 };
 

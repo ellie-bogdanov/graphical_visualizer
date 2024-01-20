@@ -1,6 +1,7 @@
 #include "falling_sand.hpp"
 
 #include <random>
+#include <iostream>
 
 int generate_random_length()
 {
@@ -28,7 +29,7 @@ sand_block::sand_block()
     color = SAND_DEFAULT_COLOR;
     for(size_t i = starting_position; i <= starting_position + length - 1; ++i )
     {
-        links.push_back({0, i});
+        links.push_back({{0, i}, false});
     }
 }
 
@@ -39,7 +40,7 @@ sand_block::sand_block(std::string color) : color(color)
     shape = SAND_SHAPE;
     for(size_t i = starting_position; i <= starting_position + length - 1; ++i )
     {
-        links.push_back({0, i});
+        links.push_back({{0, i}, false});
     }
 }
 
@@ -66,30 +67,39 @@ void falling_sand::simulate_fall()
     {
         sand_block current_block = sand_blocks.front();
         field.alter_frame("0,1," + std::to_string(current_block.starting_position) + std::to_string(current_block.length) + current_block.shape + current_block.color);
-        while (!current_block.links.empty())
+        while (!current_block.are_all_immovable())
         {
             visualizer.add_frame(field);
             std::vector<size_t> links_to_remove;
             frame_matrix new_frame = field.get_current_frame();
             for(size_t i = 0; i < current_block.links.size(); ++i)
             {
-                std::pair<size_t, size_t> link = current_block.links[i];
-                if(link.first == frame::HEIGHT - 1 || field.get_current_frame()[link.first + 1][link.second].first != current_block.shape)
-                    links_to_remove.push_back(i);
-                else
+                std::pair<size_t, size_t> link = current_block.links[i].first;
+                std::cout << (link.first == frame::HEIGHT - 1) << " " << (field.get_current_frame()[link.first + 1][link.second].first == current_block.shape) << std::endl; 
+                if(link.first == frame::HEIGHT - 1 || field.get_current_frame()[link.first + 1][link.second].first == current_block.shape)
+                    current_block.links[i].second = true;
+                else if(current_block.links[i].second != true)
                 {    
                     
-                    new_frame[current_block.links[i].first][current_block.links[i].second] = {'#', colors.at("reset")};
-                    current_block.links[i].first += 1;
-                    new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};    
+                    new_frame[current_block.links[i].first.first][current_block.links[i].first.second] = {'#', colors.at("reset")};
+                    current_block.links[i].first.first += 1;
+                    new_frame[current_block.links[i].first.first][current_block.links[i].first.second] = {current_block.shape, colors.at(current_block.color)};    
                 }
             }
-            for(size_t link_to_remove : links_to_remove)
-                current_block.links.erase(current_block.links.begin() + link_to_remove); 
-            field.set_current_frame(new_frame);
+            
+
+            
         }
         sand_blocks.pop();
     }
 }
 
-
+bool sand_block::are_all_immovable()
+{
+    for(auto link : links)
+    {
+        if(!link.second)
+            return false;
+    }
+    return true;
+}
