@@ -74,7 +74,7 @@ void falling_sand::simulate_fall()
             for(size_t i = 0; i < current_block.links.size(); ++i)
             {
                 std::pair<size_t, size_t> link = current_block.links[i];
-                if(link.first == frame::HEIGHT - 1 || field.get_current_frame()[link.first + 1][link.second].first != current_block.shape)
+                if(link.first == frame::HEIGHT - 1 || field.get_current_frame()[link.first + 1][link.second].first == current_block.shape)
                     links_to_remove.push_back(i);
                 else
                 {    

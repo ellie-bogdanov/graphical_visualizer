@@ -14,7 +14,7 @@ const std::string SAND_DEFAULT_COLOR = "red";
 const int SAND_BLOCK_AMOUNT = 15;
 const int MIN_SAND_LENGTH = 1;
 const int MAX_SAND_LENGTH = 25;
-const std::chrono::milliseconds millis_for_frame = 500ms;
+const std::chrono::milliseconds millis_for_frame = 100ms;
 
 struct sand_block
 {
