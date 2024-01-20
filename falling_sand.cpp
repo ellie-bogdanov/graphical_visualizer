@@ -47,7 +47,7 @@ falling_sand::falling_sand()
 {   
     generate_sand_blocks();
     simulate_fall();
-    visualizer.print_sequence(millis_per_frame_falling_sand);
+    //visualizer.print_sequence(millis_per_frame_falling_sand);
 }
 
 void falling_sand::generate_sand_blocks()

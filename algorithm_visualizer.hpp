@@ -1,12 +1,13 @@
 #pragma once
 
 #include "graphical_visualizer.hpp"
+#include "falling_sand.hpp"
 #include <queue>
 #include <chrono>
 
 using namespace std::chrono_literals;
 
-const std::chrono::milliseconds millis_per_frame_algo_vis = 200ms; 
+const std::chrono::milliseconds millis_per_frame_algo_vis = 50ms; 
 
 class algorithm_visualizer
 {

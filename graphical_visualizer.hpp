@@ -16,11 +16,12 @@ class frame
 private:
 
     std::string color;
-    frame_matrix current_frame; 
+    
 
     void initialize_frame();
 
 public:
+frame_matrix current_frame; 
     const static size_t AMOUNT_OF_SECTIONS = 6;
     const static size_t WIDTH = 30;
     const static size_t HEIGHT = 20;

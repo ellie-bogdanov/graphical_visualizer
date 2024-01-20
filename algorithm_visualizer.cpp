@@ -1,8 +1,39 @@
 #include "algorithm_visualizer.hpp"
+#include <random>
+
+
+std::string generate_random_color()
+{
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, colors.size() - 1); 
+    auto it = colors.begin();
+    for(size_t i = 0; i < dist(rng); ++i)
+    {
+        it++;
+    }
+    return it->first;
+}
+
+void change_frame_colors(frame& frame_to_color, char symbol_to_color)
+{
+    
+    for(size_t j = 0; j< frame_to_color.current_frame[0].size(); ++j)
+    {
+
+        std::string color = generate_random_color();
+        for(size_t i = 0; i < frame_to_color.current_frame.size(); ++i)
+        {
+            if(frame_to_color.current_frame[i][j].first == symbol_to_color)
+                frame_to_color.current_frame[i][j].second = color;
+        }
+    }
+}
 
 algorithm_visualizer::algorithm_visualizer(frame to_sort, char symbol, std::string color) : to_sort(to_sort)
 {
     std::vector<int> frame_to_vec = frame_matrix_to_num(to_sort.get_current_frame(), symbol);
+    change_frame_colors(to_sort, SAND_SHAPE);
     bubble_sort(frame_to_vec, symbol, color);
     visualizer.print_sequence(millis_per_frame_algo_vis);
 }
@@ -42,8 +73,10 @@ frame_matrix algorithm_visualizer::num_to_frame_matrix(std::vector<int> convert_
             return {};
         for(int j = 0; j < i; ++j)
         {
-            conver_to[matrix_index][j] = {symbol_to_insert, colors.at(color)};
+            conver_to[conver_to.size() - j - 1][matrix_index] = {symbol_to_insert, colors.at(color)};
+            
         }
+        matrix_index++;
     }
     return conver_to;
 }
@@ -51,6 +84,7 @@ frame_matrix algorithm_visualizer::num_to_frame_matrix(std::vector<int> convert_
 void algorithm_visualizer::bubble_sort(std::vector<int>& vect_to_sort, char symbol, std::string color)
 {
     frame new_frame = to_sort;
+    
     for(size_t i = 0; i < vect_to_sort.size() - 1; ++i)
     {
         bool is_swapped = false;
