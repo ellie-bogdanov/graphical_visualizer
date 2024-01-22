@@ -20,34 +20,35 @@ frame_matrix frame::get_current_frame() const
     return current_frame;
 }
 
-void frame::alter_frame(const std::string& input)
+void frame::alter_frame(std::string const& input)
 {
     parse_input(input);
 }
 
-void frame::set_current_frame(const frame_matrix& new_current_frame)
+void frame::set_current_frame(frame_matrix const& new_current_frame)
 {
     current_frame = new_current_frame;
 }
 
 void frame::print_frame()
 {
-    for(const std::vector<std::pair<char, std::string>>& line : current_frame)
+    for(auto const& line : current_frame)
     {
-        for(const std::pair<char, std::string>& current_char : line)
+        for(auto const& current_pixel : line)
         {
-            std::cout << current_char.second << current_char.first;
+            std::cout << current_pixel.color_code << current_pixel.character;
             std::cout << colors.at("reset");
         }
         std::cout << std::endl;
     }
 }
 
-bool frame::parse_input(const std::string& input)
+bool frame::parse_input(std::string const& input)
 {
     std::stringstream input_stream(input);
     std::string input_sections[AMOUNT_OF_INPUT_OPTIONS];
-    
+
+        
     size_t input_sections_index = 0;
     while(std::getline(input_stream, input_sections[input_sections_index], INPUT_DELIMITER))
         ++input_sections_index;
@@ -70,8 +71,8 @@ bool frame::parse_input(const std::string& input)
     {
         for(size_t j = range_start; j <= range_start + range_length - 1; ++j)
         {
-            current_frame[i][j].first = printable_char;
-            current_frame[i][j].second = color;
+            current_frame[i][j].character = printable_char;
+            current_frame[i][j].color_code = color;
         }
     }
     
@@ -82,17 +83,18 @@ void frame::initialize_frame()
 {
     for(size_t i = 0; i < FRAME_HEIGHT; ++i)
     {
-        std::vector<std::pair<char, std::string>> line;
+        std::vector<pixel> line;
+        line.reserve(FRAME_WIDTH);
         for(size_t j = 0; j < FRAME_WIDTH; ++j)
-            line.push_back({'#', colors.at("reset")});
+            line.push_back({BACKGROUND, colors.at("reset")});
 
         current_frame.push_back(line);
     } 
 }
 
-bool is_a_number(std::string number)
+bool is_a_number(std::string const& number)
 {
-    for(const char& ch : number)
+    for(char const& ch : number)
     {
         if(!std::isdigit(ch))
             return false;

@@ -26,8 +26,8 @@ void change_frame_colors(frame& frame_to_color, char symbol_to_color)
         std::string color = generate_random_color();
         for(size_t i = 0; i < frame_to_color.current_frame.size(); ++i)
         {
-            if(frame_to_color.current_frame[i][j].first == symbol_to_color)
-                frame_to_color.current_frame[i][j].second = color;
+            if(frame_to_color.current_frame[i][j].character == symbol_to_color)
+                frame_to_color.current_frame[i][j].color_code = color;
         }
     }
 }
@@ -50,10 +50,10 @@ std::vector<std::pair<int, std::string>> algorithm_visualizer::frame_matrix_to_n
         std::string color = "reset";
         for(size_t j = 0; j < convert_from.size(); ++j)
         {
-            if(convert_from[j][i].first == symbol_to_count)
+            if(convert_from[j][i].character == symbol_to_count)
             {    
                 symbol_counter++;
-                color = convert_from[j][i].second;
+                color = convert_from[j][i].color_code;
             }
         }
         convert_to.push_back({symbol_counter, color});
@@ -66,7 +66,7 @@ frame_matrix algorithm_visualizer::num_to_frame_matrix(std::vector<std::pair<int
     frame_matrix conver_to;
     for(size_t i = 0; i < frame::FRAME_HEIGHT; ++i)
     {
-        std::vector<std::pair<char, std::string>> line;
+        std::vector<pixel> line;
         for(size_t j = 0; j < frame::FRAME_WIDTH; ++j)
             line.push_back({'#', colors.at("reset")});
 
