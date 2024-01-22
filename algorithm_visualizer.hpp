@@ -20,10 +20,10 @@ public:
 
     algorithm_visualizer(frame to_sort, char symbol);
 
-    std::vector<std::pair<int, std::string>> frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count);
-    frame_matrix num_to_frame_matrix(std::vector<std::pair<int, std::string>> convert_from, char symbol_to_insert);
+    std::vector<std::pair<int, char const*>> frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count);
+    frame_matrix num_to_frame_matrix(std::vector<std::pair<int, char const*>> convert_from, char symbol_to_insert);
 
-    void bubble_sort(std::vector<std::pair<int, std::string>>& vect_to_sort, char symbol);
+    void bubble_sort(std::vector<std::pair<int, char const*>>& vect_to_sort, char symbol);
 
 
 };

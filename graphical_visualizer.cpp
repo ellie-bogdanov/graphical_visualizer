@@ -62,7 +62,7 @@ bool frame::parse_input(std::string const& input)
     int height_length = std::stoi(input_sections[1]);
     int range_start = std::stoi(input_sections[2]);
     int range_length = std::stoi(input_sections[3]);
-    std::string color = colors.at(input_sections[5]);
+    char const* color = colors.at(input_sections[5]);
 
     
     char printable_char = input_sections[4][0];        //should always be a string of length 1
@@ -105,7 +105,7 @@ bool is_a_number(std::string const& number)
 
 bool frame::is_valid_input(std::string height_start, std::string height_length, std::string range_start, std::string range_length, std::string printable_char,std::string color)
 {
-    std::unordered_map<std::string, std::string>::const_iterator pos = colors.find(color);
+    auto pos = colors.find(color);
     if(pos == colors.end())
         return false;
 

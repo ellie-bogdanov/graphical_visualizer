@@ -2,7 +2,7 @@
 #include <random>
 
 
-std::string generate_random_color()
+char const* generate_random_color()
 {
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -13,8 +13,8 @@ std::string generate_random_color()
         it++;
     }
     if(it->first == "reset")
-        return "red";
-    return it->first;
+        return colors.at("red");
+    return it->second;
 }
 
 void change_frame_colors(frame& frame_to_color, char symbol_to_color)
@@ -23,7 +23,7 @@ void change_frame_colors(frame& frame_to_color, char symbol_to_color)
     for(size_t j = 0; j< frame_to_color.current_frame[0].size(); ++j)
     {
 
-        std::string color = generate_random_color();
+        char const* color = generate_random_color();
         for(size_t i = 0; i < frame_to_color.current_frame.size(); ++i)
         {
             if(frame_to_color.current_frame[i][j].character == symbol_to_color)
@@ -36,18 +36,18 @@ algorithm_visualizer::algorithm_visualizer(frame to_sort, char symbol) : to_sort
 {
     
     change_frame_colors(to_sort, SAND_SHAPE);
-    std::vector<std::pair<int, std::string>> frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
+    std::vector<std::pair<int, char const*>> frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
     bubble_sort(frame_to_vec, symbol);
     visualizer.print_sequence(millis_per_frame_algo_vis);
 }
 
-std::vector<std::pair<int, std::string>> algorithm_visualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count)
+std::vector<std::pair<int, char const*>> algorithm_visualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count)
 {
-    std::vector<std::pair<int, std::string>> convert_to;
+    std::vector<std::pair<int, char const*>> convert_to;
     for(size_t i = 0; i < convert_from[0].size(); ++i)
     {
         int symbol_counter = 0;
-        std::string color = "reset";
+        char const* color = colors.at("reset");
         for(size_t j = 0; j < convert_from.size(); ++j)
         {
             if(convert_from[j][i].character == symbol_to_count)
@@ -61,34 +61,34 @@ std::vector<std::pair<int, std::string>> algorithm_visualizer::frame_matrix_to_n
     return convert_to;
 }
 
-frame_matrix algorithm_visualizer::num_to_frame_matrix(std::vector<std::pair<int, std::string>> convert_from, char symbol_to_insert)
+frame_matrix algorithm_visualizer::num_to_frame_matrix(std::vector<std::pair<int, char const*>> convert_from, char symbol_to_insert)
 {
-    frame_matrix conver_to;
+    frame_matrix convert_to;
     for(size_t i = 0; i < frame::FRAME_HEIGHT; ++i)
     {
         std::vector<pixel> line;
         for(size_t j = 0; j < frame::FRAME_WIDTH; ++j)
             line.push_back({'#', colors.at("reset")});
 
-        conver_to.push_back(line);
+        convert_to.push_back(line);
     }
 
     int matrix_index = 0;
-    for(std::pair<int, std::string> height : convert_from)
+    for(auto height : convert_from)
     {
         if(height.first >= frame::FRAME_HEIGHT)
             return {};
         for(int j = 0; j < height.first; ++j)
         {
-            conver_to[conver_to.size() - j - 1][matrix_index] = {symbol_to_insert, colors.at(height.second)};
+            convert_to[convert_to.size() - j - 1][matrix_index] = {symbol_to_insert, height.second};
             
         }
         matrix_index++;
     }
-    return conver_to;
+    return convert_to;
 }
 
-void algorithm_visualizer::bubble_sort(std::vector<std::pair<int, std::string>>& vect_to_sort, char symbol)
+void algorithm_visualizer::bubble_sort(std::vector<std::pair<int, char const*>>& vect_to_sort, char symbol)
 {
     frame new_frame = to_sort;
     
