@@ -15,7 +15,7 @@ int generate_random_start_pos(int sand_length)
 {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, frame::WIDTH - sand_length); //potential error might need to add -1
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, frame::FRAME_WIDTH - sand_length); 
 
     return dist(rng);
 }
@@ -47,7 +47,7 @@ falling_sand::falling_sand()
 {   
     generate_sand_blocks();
     simulate_fall();
-    //visualizer.print_sequence(millis_per_frame_falling_sand);
+    visualizer.print_sequence(millis_per_frame_falling_sand);
 }
 
 void falling_sand::generate_sand_blocks()
@@ -77,7 +77,7 @@ void falling_sand::simulate_fall()
             for(size_t i = 0; i < current_block.links.size(); ++i)
             {
                 std::pair<size_t, size_t> link = current_block.links[i];
-                if(link.first != frame::HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].first != current_block.shape)
+                if(link.first != frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].first != current_block.shape)
                 {
                     did_move = true;
                     new_frame[current_block.links[i].first][current_block.links[i].second] = {'#', colors.at("reset")};

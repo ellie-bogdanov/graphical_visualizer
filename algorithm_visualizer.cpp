@@ -64,10 +64,10 @@ std::vector<std::pair<int, std::string>> algorithm_visualizer::frame_matrix_to_n
 frame_matrix algorithm_visualizer::num_to_frame_matrix(std::vector<std::pair<int, std::string>> convert_from, char symbol_to_insert)
 {
     frame_matrix conver_to;
-    for(size_t i = 0; i < frame::HEIGHT; ++i)
+    for(size_t i = 0; i < frame::FRAME_HEIGHT; ++i)
     {
         std::vector<std::pair<char, std::string>> line;
-        for(size_t j = 0; j < frame::WIDTH; ++j)
+        for(size_t j = 0; j < frame::FRAME_WIDTH; ++j)
             line.push_back({'#', colors.at("reset")});
 
         conver_to.push_back(line);
@@ -76,7 +76,7 @@ frame_matrix algorithm_visualizer::num_to_frame_matrix(std::vector<std::pair<int
     int matrix_index = 0;
     for(std::pair<int, std::string> height : convert_from)
     {
-        if(height.first >= frame::HEIGHT)
+        if(height.first >= frame::FRAME_HEIGHT)
             return {};
         for(int j = 0; j < height.first; ++j)
         {

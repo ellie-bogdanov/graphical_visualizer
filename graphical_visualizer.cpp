@@ -22,7 +22,7 @@ frame_matrix frame::get_current_frame() const
 
 void frame::alter_frame(const std::string& input)
 {
-    is_valid = parse_input(input);
+    parse_input(input);
 }
 
 void frame::set_current_frame(const frame_matrix& new_current_frame)
@@ -46,10 +46,10 @@ void frame::print_frame()
 bool frame::parse_input(const std::string& input)
 {
     std::stringstream input_stream(input);
-    std::string input_sections[AMOUNT_OF_SECTIONS];
+    std::string input_sections[AMOUNT_OF_INPUT_OPTIONS];
     
     size_t input_sections_index = 0;
-    while(std::getline(input_stream, input_sections[input_sections_index], DELIMITER))
+    while(std::getline(input_stream, input_sections[input_sections_index], INPUT_DELIMITER))
         ++input_sections_index;
 
     if(!is_valid_input(input_sections[0], input_sections[1], input_sections[2], input_sections[3], input_sections[4], input_sections[5]))
@@ -80,10 +80,10 @@ bool frame::parse_input(const std::string& input)
 
 void frame::initialize_frame()
 {
-    for(size_t i = 0; i < HEIGHT; ++i)
+    for(size_t i = 0; i < FRAME_HEIGHT; ++i)
     {
         std::vector<std::pair<char, std::string>> line;
-        for(size_t j = 0; j < WIDTH; ++j)
+        for(size_t j = 0; j < FRAME_WIDTH; ++j)
             line.push_back({'#', colors.at("reset")});
 
         current_frame.push_back(line);
@@ -119,7 +119,7 @@ bool frame::is_valid_input(std::string height_start, std::string height_length, 
     int range_start_int = std::stoi(range_start);
     int range_length_int = std::stoi(range_length);
 
-    if(height_start_int < 0 || height_length_int + height_length_int - 1 >= HEIGHT || range_start_int < 0 || range_start_int + range_length_int - 1 >= WIDTH)
+    if(height_start_int < 0 || height_length_int + height_length_int - 1 >= FRAME_HEIGHT || range_start_int < 0 || range_start_int + range_length_int - 1 >= FRAME_WIDTH)
         return false;   
     return true;
 }
