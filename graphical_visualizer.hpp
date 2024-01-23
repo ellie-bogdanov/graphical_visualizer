@@ -1,66 +1,65 @@
 #pragma once
 
-#include <vector>
-#include <string>
-#include <queue>
 #include <chrono>
-#include <unordered_map>
 #include <map>
+#include <queue>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
-const std::unordered_map<std::string, char const*> colors = {{"red", "\033[31m"}, {"green", "\033[32m"}, {"blue", "\033[34m"}, {"yellow", "\033[33m"}, {"reset", "\033[0m"}};
+const std::unordered_map<std::string, char const *> colors = {{"red", "\033[31m"}, {"green", "\033[32m"}, {"blue", "\033[34m"}, {"yellow", "\033[33m"}, {"reset", "\033[0m"}};
 
-struct pixel
-{
+struct pixel {
     char character;
-    char const* color_code;
+    char const *color_code;
 };
-
 
 using frame_matrix = std::vector<std::vector<pixel>>;
 
-class frame
-{
-private:
-    
+class Frame {
+  private:
     void initialize_frame();
 
-public:
-    frame_matrix current_frame; 
-    constexpr static size_t AMOUNT_OF_INPUT_OPTIONS = 6;
-    constexpr static size_t FRAME_WIDTH = 30;
-    constexpr static size_t FRAME_HEIGHT = 20;
-    constexpr static char INPUT_DELIMITER = ',';
-    constexpr static char BACKGROUND = '#';
+    bool is_valid_input(std::string const &height_start, std::string const &height_length, std::string const &range_start, std::string const &range_length, std::string const &printable_char, std::string const &color);
 
-    frame();
-    frame(std::string const& input);
+  public:
+    frame_matrix current_frame;
+    const static size_t AMOUNT_OF_INPUT_OPTIONS = 6;
+    const static size_t FRAME_WIDTH = 30;
+    const static size_t FRAME_HEIGHT = 20;
+    const static char INPUT_DELIMITER = ',';
+    const static char BACKGROUND = '#';
+
+    Frame();
+    Frame(std::string const &input);
 
     frame_matrix get_current_frame() const;
-    void alter_frame(std::string const& input);
-    void set_current_frame(frame_matrix const& new_current_frame);
+    void alter_frame(std::string const &input);
+    void set_current_frame(frame_matrix const &new_current_frame);
     void print_frame();
-    bool parse_input(std::string const& input);
-    
-    bool is_valid_input(std::string height_start, std::string height_length, std::string range_start, std::string range_length, std::string printable_char, std::string color);
-
+    bool parse_input(std::string const &input);
 };
 
-class graphical_visualizer
-{
-private:
-    std::queue<frame> frame_queue;
+struct FrameMatrix {
+    std::vector<pixel> frame_matrix;
+    FrameMatrix();
 
-public:
-    graphical_visualizer();
+    pixel &operator[](size_t i);
+};
 
-    std::queue<frame> get_frame_queue() const;
-    void add_frame(frame frame);
+class GraphicalVisualizer {
+  private:
+    std::queue<Frame> frame_queue;
+
+  public:
+    GraphicalVisualizer();
+
+    std::queue<Frame> get_frame_queue() const;
+    void add_frame(Frame frame);
     void print_sequence(const std::chrono::milliseconds millis);
-
 };
 
-struct input
-{
+struct input {
     size_t height_start;
     size_t height_length;
     size_t width_start;
