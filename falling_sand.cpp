@@ -40,7 +40,7 @@ SandBlock::SandBlock(std::string color) : color(color) {
 FallingSand::FallingSand() {
     generate_sand_blocks();
     simulate_fall();
-    visualizer.print_sequence(millis_per_frame_falling_sand);
+    // visualizer.print_sequence(millis_per_frame_falling_sand);
 }
 
 void FallingSand::generate_sand_blocks() {

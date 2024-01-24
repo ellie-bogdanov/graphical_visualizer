@@ -3,6 +3,7 @@
 #include "falling_sand.hpp"
 #include "graphical_visualizer.hpp"
 #include <chrono>
+#include <iterator>
 #include <queue>
 #include <string>
 
@@ -23,4 +24,5 @@ public:
 
     void bubble_sort(std::vector<std::pair<int, char const *>> &vect_to_sort, char symbol);
     void merge_sort(std::vector<std::pair<int, char const *>> &vect_to_sort, char symbol);
+    void merge_sort(std::vector<std::pair<int, char const *>> &vect_to_sort, char symbol, size_t start, size_t end, std::vector<std::pair<int, char const *>> &printable_frame);
 };
