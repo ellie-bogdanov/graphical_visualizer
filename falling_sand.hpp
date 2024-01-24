@@ -16,24 +16,24 @@ const int MIN_SAND_LENGTH = 2;
 const int MAX_SAND_LENGTH = 12;
 const std::chrono::milliseconds millis_per_frame_falling_sand = 25ms;
 
-struct sand_block {
+struct SandBlock {
     int length;
     int starting_position;
     char shape;
     std::string color;
     std::vector<std::pair<size_t, size_t>> links;
 
-    sand_block();
-    sand_block(std::string color);
+    SandBlock();
+    SandBlock(std::string color);
 };
 
 class FallingSand {
-  private:
+private:
     Frame field;
     GraphicalVisualizer visualizer;
-    std::queue<sand_block> sand_blocks;
+    std::queue<SandBlock> sand_blocks;
 
-  public:
+public:
     FallingSand();
     void generate_sand_blocks();
     void simulate_fall();

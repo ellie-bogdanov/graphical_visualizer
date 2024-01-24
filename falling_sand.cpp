@@ -18,7 +18,7 @@ int generate_random_start_pos(int sand_length) {
     return dist(rng);
 }
 
-sand_block::sand_block() {
+SandBlock::SandBlock() {
     length = generate_random_length();
     starting_position = generate_random_start_pos(length);
     shape = SAND_SHAPE;
@@ -28,7 +28,7 @@ sand_block::sand_block() {
     }
 }
 
-sand_block::sand_block(std::string color) : color(color) {
+SandBlock::SandBlock(std::string color) : color(color) {
     length = generate_random_length();
     starting_position = generate_random_start_pos(length);
     shape = SAND_SHAPE;
@@ -46,14 +46,14 @@ FallingSand::FallingSand() {
 void FallingSand::generate_sand_blocks() {
     for (size_t i = 1; i <= SAND_BLOCK_AMOUNT; ++i) {
 
-        sand_blocks.push(sand_block());
+        sand_blocks.push(SandBlock());
     }
 }
 
 void FallingSand::simulate_fall() {
 
     while (!sand_blocks.empty()) {
-        sand_block current_block = sand_blocks.front();
+        SandBlock current_block = sand_blocks.front();
         field.alter_frame("0,1," + std::to_string(current_block.starting_position) + std::to_string(current_block.length) + current_block.shape + current_block.color);
         bool did_move = true;
         while (did_move) {

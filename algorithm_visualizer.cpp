@@ -53,7 +53,7 @@ std::vector<std::pair<int, char const *>> AlgorithmVisualizer::frame_matrix_to_n
 frame_matrix AlgorithmVisualizer::num_to_frame_matrix(std::vector<std::pair<int, char const *>> convert_from, char symbol_to_insert) {
     frame_matrix convert_to;
     for (size_t i = 0; i < Frame::FRAME_HEIGHT; ++i) {
-        std::vector<pixel> line;
+        std::vector<Pixel> line;
         for (size_t j = 0; j < Frame::FRAME_WIDTH; ++j)
             line.push_back({'#', colors.at("reset")});
 

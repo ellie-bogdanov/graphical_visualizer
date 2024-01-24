@@ -74,7 +74,7 @@ bool Frame::parse_input(std::string const &input) {
 
 void Frame::initialize_frame() {
     for (size_t i = 0; i < FRAME_HEIGHT; ++i) {
-        std::vector<pixel> line;
+        std::vector<Pixel> line;
         line.reserve(FRAME_WIDTH);
         for (size_t j = 0; j < FRAME_WIDTH; ++j)
             line.push_back({BACKGROUND, colors.at("reset")});
