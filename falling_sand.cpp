@@ -54,7 +54,7 @@ void FallingSand::simulate_fall() {
 
     while (!sand_blocks.empty()) {
         SandBlock current_block = sand_blocks.front();
-        field.alter_frame("0,1," + std::to_string(current_block.starting_position) + std::to_string(current_block.length) + current_block.shape + current_block.color);
+
         bool did_move = true;
         while (did_move) {
             did_move = false;

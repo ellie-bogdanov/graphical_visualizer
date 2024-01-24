@@ -1,4 +1,5 @@
 #include "algorithm_visualizer.hpp"
+#include <algorithm>
 #include <random>
 
 char const *generate_random_color() {
@@ -30,7 +31,8 @@ AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(t
 
     change_frame_colors(to_sort, SAND_SHAPE);
     std::vector<std::pair<int, char const *>> frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
-    bubble_sort(frame_to_vec, symbol);
+    // bubble_sort(frame_to_vec, symbol);
+    merge_sort(frame_to_vec, symbol);
     visualizer.print_sequence(millis_per_frame_algo_vis);
 }
 
@@ -88,4 +90,38 @@ void AlgorithmVisualizer::bubble_sort(std::vector<std::pair<int, char const *>> 
         if (!is_swapped)
             break;
     }
+}
+
+void AlgorithmVisualizer::merge_sort(std::vector<std::pair<int, char const *>> &vect_to_sort, char symbol) {
+    if (vect_to_sort.size() <= 1)
+        return;
+
+    size_t mid = (vect_to_sort.size() / 2);
+    std::vector<std::pair<int, char const *>> left(vect_to_sort.cbegin(), vect_to_sort.cbegin() + mid);
+    std::vector<std::pair<int, char const *>> right(vect_to_sort.cbegin() + mid, vect_to_sort.cend());
+    vect_to_sort.clear();
+    merge_sort(left, symbol);
+    merge_sort(right, symbol);
+
+    size_t left_index = 0;
+    size_t right_index = 0;
+    while (vect_to_sort.size() < left.size() + right.size()) {
+        if (left_index == left.size())
+            vect_to_sort.insert(vect_to_sort.end(), right.begin() + right_index, right.end());
+        else if (right_index == right.size())
+            vect_to_sort.insert(vect_to_sort.end(), left.begin() + left_index, left.end());
+        else {
+            if (left[left_index].first > right[right_index].first) {
+                vect_to_sort.push_back(left[left_index]);
+                left_index++;
+            } else {
+                vect_to_sort.push_back(right[right_index]);
+                right_index++;
+            }
+        }
+    }
+
+    Frame new_frame;
+    new_frame.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
+    visualizer.add_frame(new_frame);
 }
