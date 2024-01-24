@@ -16,11 +16,12 @@ char const *generate_random_color() {
 
 void change_frame_colors(Frame &frame_to_color, char symbol_to_color) {
 
-    for (size_t j = 0; j < frame_to_color.frame_matrix.width; ++j) {
+    for (size_t j = 0; j < frame_to_color.current_frame[0].size(); ++j) {
+
         char const *color = generate_random_color();
-        for (size_t i = 0; i < frame_to_color.frame_matrix.height; ++i) {
-            if (frame_to_color.frame_matrix.at(i, j).character == symbol_to_color)
-                frame_to_color.frame_matrix.at(i, j).color_code = color;
+        for (size_t i = 0; i < frame_to_color.current_frame.size(); ++i) {
+            if (frame_to_color.current_frame[i][j].character == symbol_to_color)
+                frame_to_color.current_frame[i][j].color_code = color;
         }
     }
 }
@@ -28,49 +29,45 @@ void change_frame_colors(Frame &frame_to_color, char symbol_to_color) {
 AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(to_sort) {
 
     change_frame_colors(to_sort, SAND_SHAPE);
-    std::vector<std::pair<int, char const *>> frame_to_vec = frame_matrix_to_num(to_sort.frame_matrix, symbol);
+    std::vector<std::pair<int, char const *>> frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
     bubble_sort(frame_to_vec, symbol);
     visualizer.print_sequence(millis_per_frame_algo_vis);
 }
 
-std::vector<std::pair<int, char const *>> AlgorithmVisualizer::frame_matrix_to_num(FrameMatrix convert_from, char symbol_to_count) {
+std::vector<std::pair<int, char const *>> AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count) {
     std::vector<std::pair<int, char const *>> convert_to;
-
-    for (size_t j = 0; j < convert_from.width; ++j) {
-
+    for (size_t i = 0; i < convert_from[0].size(); ++i) {
         int symbol_counter = 0;
         char const *color = colors.at("reset");
-        for (size_t i = 0; i < convert_from.height; ++i) {
-            if (convert_from.at(i, j).character == symbol_to_count) {
+        for (size_t j = 0; j < convert_from.size(); ++j) {
+            if (convert_from[j][i].character == symbol_to_count) {
                 symbol_counter++;
-                color = convert_from.at(i, j).color_code;
+                color = convert_from[j][i].color_code;
             }
         }
-
         convert_to.push_back({symbol_counter, color});
     }
-
     return convert_to;
 }
 
-FrameMatrix AlgorithmVisualizer::num_to_frame_matrix(std::vector<std::pair<int, char const *>> convert_from, char symbol_to_insert) {
-    FrameMatrix convert_to;
-    for (size_t i = 0; i < convert_to.height; ++i) {
-        std::vector<Pixel> line;
-        for (size_t j = 0; j < convert_to.width; ++j)
+frame_matrix AlgorithmVisualizer::num_to_frame_matrix(std::vector<std::pair<int, char const *>> convert_from, char symbol_to_insert) {
+    frame_matrix convert_to;
+    for (size_t i = 0; i < Frame::FRAME_HEIGHT; ++i) {
+        std::vector<pixel> line;
+        for (size_t j = 0; j < Frame::FRAME_WIDTH; ++j)
             line.push_back({'#', colors.at("reset")});
 
-        convert_to.push_back_line(line);
+        convert_to.push_back(line);
     }
 
-    int index = 0;
-    for (auto sand_column_height : convert_from) {
-        if (sand_column_height.first >= Frame::FRAME_HEIGHT)
+    int matrix_index = 0;
+    for (auto height : convert_from) {
+        if (height.first >= Frame::FRAME_HEIGHT)
             return {};
-        for (int j = 0; j < sand_column_height.first; ++j) {
-            convert_to.at(index, convert_to.size() - j - 1) = {symbol_to_insert, sand_column_height.second};
+        for (int j = 0; j < height.first; ++j) {
+            convert_to[convert_to.size() - j - 1][matrix_index] = {symbol_to_insert, height.second};
         }
-        index++;
+        matrix_index++;
     }
     return convert_to;
 }
