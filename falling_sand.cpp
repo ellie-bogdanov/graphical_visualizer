@@ -54,21 +54,23 @@ void FallingSand::simulate_fall() {
 
     while (!sand_blocks.empty()) {
         sand_block current_block = sand_blocks.front();
-        field.alter_frame("0,1," + std::to_string(current_block.starting_position) + std::to_string(current_block.length) + current_block.shape + current_block.color);
+        // field.alter_frame("0,1," + std::to_string(current_block.starting_position) + std::to_string(current_block.length) + current_block.shape + current_block.color);
         bool did_move = true;
         while (did_move) {
             did_move = false;
             visualizer.add_frame(field);
             std::vector<size_t> links_to_remove;
-            frame_matrix new_frame = field.get_current_frame();
+            FrameMatrix new_frame = field.get_current_frame();
 
             for (size_t i = 0; i < current_block.links.size(); ++i) {
                 std::pair<size_t, size_t> link = current_block.links[i];
-                if (link.first != Frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].character != current_block.shape) {
-                    did_move = true;
-                    new_frame[current_block.links[i].first][current_block.links[i].second] = {'#', colors.at("reset")};
-                    current_block.links[i].first += 1;
-                    new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
+                if (link.first != Frame::FRAME_HEIGHT - 1) {
+                    if (field.get_current_frame().at(link.first + 1, link.second).character != current_block.shape) {
+                        did_move = true;
+                        new_frame.at(current_block.links[i].first, current_block.links[i].second) = {'#', colors.at("reset")};
+                        current_block.links[i].first += 1;
+                        new_frame.at(current_block.links[i].first, current_block.links[i].second) = {current_block.shape, colors.at(current_block.color)};
+                    }
                 }
             }
 

@@ -9,49 +9,60 @@
 
 const std::unordered_map<std::string, char const *> colors = {{"red", "\033[31m"}, {"green", "\033[32m"}, {"blue", "\033[34m"}, {"yellow", "\033[33m"}, {"reset", "\033[0m"}};
 
-struct pixel {
+struct Pixel {
     char character;
     char const *color_code;
+
+    Pixel &operator=(Pixel const &new_pixel);
 };
 
-using frame_matrix = std::vector<std::vector<pixel>>;
+struct FrameMatrix {
+private:
+    std::vector<Pixel> frame_matrix;
+
+public:
+    size_t height;
+    size_t width;
+
+    FrameMatrix();
+
+    Pixel &at(size_t height_index, size_t width_index);
+    void set(size_t height_index, size_t width_index, Pixel const &new_pixel);
+    void push_back_line(std::vector<Pixel> const &line);
+    size_t size();
+};
+
+// using frame_matrix = std::vector<std::vector<pixel>>;
 
 class Frame {
-  private:
+private:
     void initialize_frame();
 
     bool is_valid_input(std::string const &height_start, std::string const &height_length, std::string const &range_start, std::string const &range_length, std::string const &printable_char, std::string const &color);
 
-  public:
-    frame_matrix current_frame;
+public:
+    FrameMatrix frame_matrix;
     const static size_t AMOUNT_OF_INPUT_OPTIONS = 6;
     const static size_t FRAME_WIDTH = 30;
-    const static size_t FRAME_HEIGHT = 20;
+    const static size_t FRAME_HEIGHT = 10;
     const static char INPUT_DELIMITER = ',';
     const static char BACKGROUND = '#';
 
     Frame();
     Frame(std::string const &input);
 
-    frame_matrix get_current_frame() const;
+    FrameMatrix get_current_frame() const;
     void alter_frame(std::string const &input);
-    void set_current_frame(frame_matrix const &new_current_frame);
+    void set_current_frame(FrameMatrix const &new_current_frame);
     void print_frame();
     bool parse_input(std::string const &input);
 };
 
-struct FrameMatrix {
-    std::vector<pixel> frame_matrix;
-    FrameMatrix();
-
-    pixel &operator[](size_t i);
-};
-
 class GraphicalVisualizer {
-  private:
+private:
     std::queue<Frame> frame_queue;
 
-  public:
+public:
     GraphicalVisualizer();
 
     std::queue<Frame> get_frame_queue() const;

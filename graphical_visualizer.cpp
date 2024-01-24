@@ -4,6 +4,40 @@
 #include <sstream>
 #include <thread>
 
+Pixel &Pixel::operator=(Pixel const &new_pixel) {
+    character = new_pixel.character;
+    color_code = new_pixel.color_code;
+
+    return *this;
+}
+
+FrameMatrix::FrameMatrix() {
+    height = Frame::FRAME_HEIGHT;
+    width = Frame::FRAME_WIDTH;
+    // frame_matrix.reserve(height * width);
+}
+
+Pixel &FrameMatrix::at(size_t height_index, size_t width_index) {
+    return frame_matrix[height_index + Frame::FRAME_WIDTH * width_index];
+}
+
+void FrameMatrix::set(size_t height_index, size_t width_index, Pixel const &new_pixel) {
+    frame_matrix[height_index + Frame::FRAME_WIDTH * width_index] = new_pixel;
+}
+
+void FrameMatrix::push_back_line(std::vector<Pixel> const &line) {
+    if (frame_matrix.size() + line.size() > height * width)
+        throw(505);
+    else {
+        for (Pixel const &pixel : line)
+            frame_matrix.push_back(pixel);
+    }
+}
+
+size_t FrameMatrix::size() {
+    return height * width;
+}
+
 Frame::Frame() { initialize_frame(); }
 
 Frame::Frame(const std::string &input) {
@@ -11,25 +45,25 @@ Frame::Frame(const std::string &input) {
     alter_frame(input);
 }
 
-frame_matrix Frame::get_current_frame() const { return current_frame; }
+FrameMatrix Frame::get_current_frame() const { return frame_matrix; }
 
 void Frame::alter_frame(std::string const &input) {
     if (!parse_input(input))
         std::cout << "Invalid input \n";
 }
 
-void Frame::set_current_frame(frame_matrix const &new_current_frame) {
-    current_frame = new_current_frame;
+void Frame::set_current_frame(FrameMatrix const &new_current_frame) {
+    frame_matrix = new_current_frame;
 }
 
 void Frame::print_frame() {
-    for (auto const &line : current_frame) {
-        for (auto const &current_pixel : line) {
-            std::cout << current_pixel.color_code << current_pixel.character;
+
+    for (size_t i = 0; i < frame_matrix.height; ++i) {
+        for (size_t j = 0; j < frame_matrix.width; ++j) {
+            std::cout << frame_matrix.at(i, j).color_code << frame_matrix.at(i, j).character;
             std::cout << colors.at("reset");
         }
-
-        std::cout << std::endl;
+        std::cout << '\n';
     }
 }
 
@@ -64,8 +98,8 @@ bool Frame::parse_input(std::string const &input) {
 
     for (size_t i = height_start; i <= height_start + height_length - 1; ++i) {
         for (size_t j = range_start; j <= range_start + range_length - 1; ++j) {
-            current_frame[i][j].character = printable_char;
-            current_frame[i][j].color_code = color;
+            frame_matrix.at(i, j).character = printable_char;
+            frame_matrix.at(i, j).color_code = color;
         }
     }
 
@@ -74,12 +108,12 @@ bool Frame::parse_input(std::string const &input) {
 
 void Frame::initialize_frame() {
     for (size_t i = 0; i < FRAME_HEIGHT; ++i) {
-        std::vector<pixel> line;
-        line.reserve(FRAME_WIDTH);
+        std::vector<Pixel> line;
+        // line.reserve(FRAME_WIDTH);
         for (size_t j = 0; j < FRAME_WIDTH; ++j)
             line.push_back({BACKGROUND, colors.at("reset")});
 
-        current_frame.push_back(line);
+        frame_matrix.push_back_line(line);
     }
 }
 
