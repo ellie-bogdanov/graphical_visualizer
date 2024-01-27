@@ -131,10 +131,13 @@ void GraphicalVisualizer::print_sequence(
     const std::chrono::milliseconds millis) {
     std::queue<Frame> local_temp_queue = frame_queue;
 
-    while (!local_temp_queue.empty()) {
+    while (local_temp_queue.size() > 1) {
         local_temp_queue.front().print_frame();
         local_temp_queue.pop();
         std::this_thread::sleep_for(millis);
         system("clear");
     }
+
+    local_temp_queue.front().print_frame();
+    local_temp_queue.pop();
 }
