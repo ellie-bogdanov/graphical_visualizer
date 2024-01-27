@@ -32,9 +32,9 @@ AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(t
 
     change_frame_colors(to_sort, SAND_SHAPE);
     grid frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
-    // bubble_sort(frame_to_vec, symbol);
+    bubble_sort(frame_to_vec, symbol);
     // merge_sort(frame_to_vec, symbol);
-    quick_sort(frame_to_vec, symbol, 0, frame_to_vec.size());
+    // quick_sort(frame_to_vec, symbol, 0, frame_to_vec.size());
 
     visualizer.print_sequence(millis_per_frame_algo_vis);
 }
@@ -78,13 +78,12 @@ frame_matrix AlgorithmVisualizer::num_to_frame_matrix(grid convert_from, char sy
 }
 
 void AlgorithmVisualizer::bubble_sort(grid &vect_to_sort, char symbol) {
-    Frame new_frame = to_sort;
 
     for (size_t i = 0; i < vect_to_sort.size() - 1; ++i) {
         bool is_swapped = false;
         for (size_t j = 0; j < vect_to_sort.size() - i - 1; ++j) {
-            new_frame.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
-            visualizer.add_frame(new_frame);
+            to_sort.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
+            visualizer.add_frame(to_sort);
             if (vect_to_sort[j].first >= vect_to_sort[j + 1].first) {
                 std::swap(vect_to_sort[j], vect_to_sort[j + 1]);
                 is_swapped = true;
@@ -124,9 +123,8 @@ void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol) {
         }
     }
 
-    Frame new_frame;
-    new_frame.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
-    visualizer.add_frame(new_frame);
+    to_sort.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
+    visualizer.add_frame(to_sort);
 }
 
 void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol, size_t start, size_t end, grid &printable_frame) {
@@ -165,16 +163,14 @@ void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol, size_t sta
         }
     }
 
-    Frame new_frame;
-    new_frame.set_current_frame(num_to_frame_matrix(printable_frame, symbol));
-    visualizer.add_frame(new_frame);
+    to_sort.set_current_frame(num_to_frame_matrix(printable_frame, symbol));
+    visualizer.add_frame(to_sort);
 }
 
 void AlgorithmVisualizer::quick_sort(grid &vect_to_sort, char symbol, size_t start, size_t end) {
     if (end - start <= 0)
         return;
 
-    Frame frame;
     size_t pivot = end - 1;
     size_t first_bigger_than_pivot = start;
     bool is_bigger_found = vect_to_sort[first_bigger_than_pivot].first > vect_to_sort[pivot].first;
@@ -185,8 +181,8 @@ void AlgorithmVisualizer::quick_sort(grid &vect_to_sort, char symbol, size_t sta
         }
         if (is_bigger_found && vect_to_sort[i].first <= vect_to_sort[pivot].first) {
             std::rotate(vect_to_sort.begin() + first_bigger_than_pivot, vect_to_sort.begin() + i, vect_to_sort.begin() + i + 1);
-            frame.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
-            visualizer.add_frame(frame);
+            to_sort.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
+            visualizer.add_frame(to_sort);
             first_bigger_than_pivot += 1;
         }
     }
@@ -194,8 +190,8 @@ void AlgorithmVisualizer::quick_sort(grid &vect_to_sort, char symbol, size_t sta
     if (is_bigger_found) {
         std::swap(vect_to_sort[pivot], vect_to_sort[first_bigger_than_pivot]);
         pivot = first_bigger_than_pivot;
-        frame.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
-        visualizer.add_frame(frame);
+        to_sort.set_current_frame(num_to_frame_matrix(vect_to_sort, symbol));
+        visualizer.add_frame(to_sort);
     }
 
     quick_sort(vect_to_sort, symbol, start, pivot);

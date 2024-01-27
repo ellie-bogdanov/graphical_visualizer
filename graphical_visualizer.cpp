@@ -4,6 +4,18 @@
 #include <sstream>
 #include <thread>
 
+void gotoxy(size_t x, size_t y) {
+    std::cout << "\033[" << y << ";" << x << "H";
+}
+
+bool Pixel::operator==(Pixel const &compare) {
+    return character == compare.character && *color_code == *compare.color_code;
+}
+
+bool Pixel::operator!=(Pixel const &compare) {
+    return character != compare.character || *color_code != *compare.color_code;
+}
+
 Frame::Frame() { initialize_frame(); }
 
 Frame::Frame(const std::string &input) {
@@ -33,6 +45,18 @@ void Frame::print_frame() {
     }
 }
 
+void Frame::print_frame(Frame const &prev_frame) {
+    for (size_t i = 0; i < FRAME_HEIGHT; ++i) {
+        for (size_t j = 0; j < FRAME_WIDTH; ++j) {
+            if (current_frame[i][j] != prev_frame.current_frame[i][j]) {
+                gotoxy(j, i);
+                std::cout << current_frame[i][j].color_code << current_frame[i][j].character;
+                std::cout << colors.at("reset");
+            }
+        }
+    }
+}
+
 bool Frame::parse_input(std::string const &input) {
     std::stringstream input_stream(input);
 
@@ -59,8 +83,7 @@ bool Frame::parse_input(std::string const &input) {
 
     char const *color = colors.at(input_sections[5]);
 
-    char printable_char =
-        input_sections[4][0]; // should always be a string of length 1
+    char printable_char = input_sections[4][0]; // should always be a string of length 1
 
     for (size_t i = height_start; i <= height_start + height_length - 1; ++i) {
         for (size_t j = range_start; j <= range_start + range_length - 1; ++j) {
@@ -127,17 +150,35 @@ std::queue<Frame> GraphicalVisualizer::get_frame_queue() const {
 
 void GraphicalVisualizer::add_frame(Frame frame) { frame_queue.push(frame); }
 
-void GraphicalVisualizer::print_sequence(
-    const std::chrono::milliseconds millis) {
+void GraphicalVisualizer::print_sequence(const std::chrono::milliseconds millis) {
     std::queue<Frame> local_temp_queue = frame_queue;
 
     while (local_temp_queue.size() > 1) {
+
         local_temp_queue.front().print_frame();
         local_temp_queue.pop();
+
         std::this_thread::sleep_for(millis);
         system("clear");
     }
 
     local_temp_queue.front().print_frame();
     local_temp_queue.pop();
+}
+
+void GraphicalVisualizer::print_sequence_no_clear(const std::chrono::milliseconds millis) {
+    std::queue<Frame> local_temp_queue = frame_queue;
+    local_temp_queue.front().print_frame();
+    while (local_temp_queue.size() > 1) {
+        Frame last_frame = local_temp_queue.front();
+        local_temp_queue.pop();
+        local_temp_queue.front().print_frame(last_frame);
+
+        std::this_thread::sleep_for(millis);
+        // system("clear");
+    }
+
+    local_temp_queue.front().print_frame();
+    local_temp_queue.pop();
+    system("clear");
 }

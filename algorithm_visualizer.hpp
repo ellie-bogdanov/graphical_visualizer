@@ -10,12 +10,12 @@
 using namespace std::chrono_literals;
 
 using grid = std::vector<std::pair<int, char const *>>;
-const std::chrono::milliseconds millis_per_frame_algo_vis = 150ms;
+const std::chrono::milliseconds millis_per_frame_algo_vis = 50ms;
 
 class AlgorithmVisualizer {
 private:
     GraphicalVisualizer visualizer;
-    const Frame to_sort;
+    Frame to_sort;
 
 public:
     AlgorithmVisualizer(Frame to_sort, char symbol);
