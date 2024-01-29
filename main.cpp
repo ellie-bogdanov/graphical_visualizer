@@ -11,7 +11,7 @@ using namespace std::chrono_literals;
 
 int main(int, char **) {
     auto start = std::chrono::high_resolution_clock::now();
-
+    system("setterm -cursor off");
     FallingSand simualtion;
     AlgorithmVisualizer algo_vis(simualtion.get_field(), SAND_SHAPE);
 

@@ -1,5 +1,6 @@
 #include "graphical_visualizer.hpp"
 
+#include <cstring>
 #include <iostream>
 #include <sstream>
 #include <thread>
@@ -9,11 +10,11 @@ void gotoxy(size_t x, size_t y) {
 }
 
 bool Pixel::operator==(Pixel const &compare) {
-    return character == compare.character && *color_code == *compare.color_code;
+    return character == compare.character && std::strcmp(color_code, compare.color_code);
 }
 
 bool Pixel::operator!=(Pixel const &compare) {
-    return character != compare.character || *color_code != *compare.color_code;
+    return character != compare.character || !std::strcmp(color_code, compare.color_code);
 }
 
 Frame::Frame() { initialize_frame(); }

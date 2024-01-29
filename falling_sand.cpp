@@ -41,7 +41,8 @@ FallingSand::FallingSand() {
     generate_sand_blocks();
     // simulate_fall();
     simualte_diag_fall();
-    visualizer.print_sequence(millis_per_frame_falling_sand);
+    system("clear");
+    visualizer.print_sequence_no_clear(millis_per_frame_falling_sand);
 }
 
 void FallingSand::generate_sand_blocks() {
@@ -67,7 +68,7 @@ void FallingSand::simulate_fall() {
                 std::pair<size_t, size_t> link = current_block.links[i];
                 if (link.first != Frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].character != current_block.shape) {
                     did_move = true;
-                    new_frame[current_block.links[i].first][current_block.links[i].second] = {'#', colors.at("reset")};
+                    new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
                     current_block.links[i].first += 1;
                     new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
                 }
@@ -102,7 +103,7 @@ void FallingSand::simualte_diag_fall() {
                 std::pair<size_t, size_t> link = current_block.links[i];
                 if (link.first != Frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].character != current_block.shape) {
                     did_move = true;
-                    new_frame[current_block.links[i].first][current_block.links[i].second] = {'#', colors.at("reset")};
+                    new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
                     current_block.links[i].first += 1;
 
                     new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
@@ -110,12 +111,12 @@ void FallingSand::simualte_diag_fall() {
 
                     int direction = generate_random_direction();
                     if (link.second != Frame::FRAME_WIDTH - 1 && direction == 1 && field.get_current_frame()[link.first + 1][link.second + 1].character != current_block.shape) {
-                        new_frame[current_block.links[i].first][current_block.links[i].second] = {'#', colors.at("reset")};
+                        new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
                         current_block.links[i].first += 1;
                         current_block.links[i].second += 1;
                         new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
                     } else if (link.second != 0 && field.get_current_frame()[link.first + 1][link.second - 1].character != current_block.shape) {
-                        new_frame[current_block.links[i].first][current_block.links[i].second] = {'#', colors.at("reset")};
+                        new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
                         current_block.links[i].first += 1;
                         current_block.links[i].second -= 1;
                         new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};

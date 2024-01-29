@@ -32,11 +32,11 @@ AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(t
 
     change_frame_colors(to_sort, SAND_SHAPE);
     grid frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
-    bubble_sort(frame_to_vec, symbol);
-    // merge_sort(frame_to_vec, symbol);
-    // quick_sort(frame_to_vec, symbol, 0, frame_to_vec.size());
-
-    visualizer.print_sequence(millis_per_frame_algo_vis);
+    // bubble_sort(frame_to_vec, symbol);
+    //  merge_sort(frame_to_vec, symbol);
+    quick_sort(frame_to_vec, symbol, 0, frame_to_vec.size());
+    system("clear");
+    visualizer.print_sequence_no_clear(millis_per_frame_algo_vis);
 }
 
 grid AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count) {
@@ -60,7 +60,7 @@ frame_matrix AlgorithmVisualizer::num_to_frame_matrix(grid convert_from, char sy
     for (size_t i = 0; i < Frame::FRAME_HEIGHT; ++i) {
         std::vector<Pixel> line;
         for (size_t j = 0; j < Frame::FRAME_WIDTH; ++j)
-            line.push_back({'#', colors.at("reset")});
+            line.push_back({Frame::BACKGROUND, colors.at("reset")});
 
         convert_to.push_back(line);
     }
