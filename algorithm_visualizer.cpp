@@ -36,7 +36,7 @@ AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(t
     //  merge_sort(frame_to_vec, symbol);
     quick_sort(frame_to_vec, symbol, 0, frame_to_vec.size());
     system("clear");
-    visualizer.print_sequence_no_clear(millis_per_frame_algo_vis);
+    visualizer.print_sequence(millis_per_frame_algo_vis);
 }
 
 grid AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count) {

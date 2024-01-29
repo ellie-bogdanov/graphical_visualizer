@@ -30,8 +30,8 @@ private:
 public:
     frame_matrix current_frame;
     const static size_t AMOUNT_OF_INPUT_OPTIONS = 6;
-    const static size_t FRAME_WIDTH = 99;
-    const static size_t FRAME_HEIGHT = 33;
+    const static size_t FRAME_WIDTH = 60;
+    const static size_t FRAME_HEIGHT = 20;
     const static char INPUT_DELIMITER = ',';
     const static char BACKGROUND = '#';
 

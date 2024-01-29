@@ -42,7 +42,7 @@ FallingSand::FallingSand() {
     // simulate_fall();
     simualte_diag_fall();
     system("clear");
-    visualizer.print_sequence_no_clear(millis_per_frame_falling_sand);
+    visualizer.print_sequence(millis_per_frame_falling_sand);
 }
 
 void FallingSand::generate_sand_blocks() {
