@@ -130,6 +130,7 @@ void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol) {
     visualizer.add_frame(to_sort);
 }
 
+// same as the default merge_sort but with saving the new vector shape so the frame can show the whole vector changing
 void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol, size_t start, size_t end, grid &printable_frame) {
     if (vect_to_sort.size() <= 1)
         return;
