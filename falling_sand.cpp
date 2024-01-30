@@ -18,7 +18,7 @@ int generate_random_start_pos(int sand_length) {
     return dist(rng);
 }
 
-SandBlock::SandBlock() {
+SandBlock::SandBlock() { // generate random starting possition and length of the block and the pushes the particles into the vector of links
     length = generate_random_length();
     starting_position = generate_random_start_pos(length);
     shape = SAND_SHAPE;
@@ -28,7 +28,7 @@ SandBlock::SandBlock() {
     }
 }
 
-SandBlock::SandBlock(std::string color) : color(color) {
+SandBlock::SandBlock(std::string color) : color(color) { // same as without params but sets the color to the provided one instead of default const
     length = generate_random_length();
     starting_position = generate_random_start_pos(length);
     shape = SAND_SHAPE;
@@ -52,7 +52,7 @@ void FallingSand::generate_sand_blocks() {
     }
 }
 
-void FallingSand::simulate_fall() {
+void FallingSand::simulate_fall() { // the simulation itself this is version without daig falls of sand particles only in the y axis
 
     while (!sand_blocks.empty()) {
         SandBlock current_block = sand_blocks.front();
@@ -60,14 +60,17 @@ void FallingSand::simulate_fall() {
         bool did_move = true;
         while (did_move) {
             did_move = false;
-            visualizer.add_frame(field);
-            std::vector<size_t> links_to_remove;
+            visualizer.add_frame(field); // adds the current state of frame to the visualizer queue
+
             frame_matrix new_frame = field.get_current_frame();
 
             for (size_t i = 0; i < current_block.links.size(); ++i) {
-                std::pair<size_t, size_t> link = current_block.links[i];
+                std::pair<size_t, size_t> link = current_block.links[i]; // tracks the current sand particle
+
+                // checks for bounds
                 if (link.first != Frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].character != current_block.shape) {
                     did_move = true;
+                    // resets the color and shape of current place, then updates the color and shape of the one below
                     new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
                     current_block.links[i].first += 1;
                     new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
@@ -80,7 +83,7 @@ void FallingSand::simulate_fall() {
     }
 }
 
-int generate_random_direction() {
+int generate_random_direction() { // generates random direction for diag fall either fall left or right
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, 1);
@@ -96,11 +99,11 @@ void FallingSand::simualte_diag_fall() {
         while (did_move) {
             did_move = false;
             visualizer.add_frame(field);
-            std::vector<size_t> links_to_remove;
             frame_matrix new_frame = field.get_current_frame();
 
             for (size_t i = 0; i < current_block.links.size(); ++i) {
                 std::pair<size_t, size_t> link = current_block.links[i];
+                // same as without diag fall but it does not stop when encounters anothe particle below
                 if (link.first != Frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].character != current_block.shape) {
                     did_move = true;
                     new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
@@ -110,6 +113,8 @@ void FallingSand::simualte_diag_fall() {
                 } else if (link.first != Frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].character == current_block.shape) {
 
                     int direction = generate_random_direction();
+
+                    // checks if generated 1 in direction and also for bounds and posibility to fall diagonally to the left else checks right
                     if (link.second != Frame::FRAME_WIDTH - 1 && direction == 1 && field.get_current_frame()[link.first + 1][link.second + 1].character != current_block.shape) {
                         new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
                         current_block.links[i].first += 1;

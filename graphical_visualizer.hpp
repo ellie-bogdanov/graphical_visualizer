@@ -11,7 +11,7 @@ const std::unordered_map<std::string, char const *> colors = {{"red", "\033[31m"
 
 void gotoxy(size_t x, size_t y);
 
-struct Pixel {
+struct Pixel { // represents every single character on terminal
     char character;
     char const *color_code;
 
@@ -21,7 +21,7 @@ struct Pixel {
 
 using frame_matrix = std::vector<std::vector<Pixel>>;
 
-class Frame {
+class Frame { // consists of a pixel matrix, methods to manipulate and print the frame and consts for more flexebility
 private:
     void initialize_frame();
 
@@ -46,7 +46,7 @@ public:
     bool parse_input(std::string const &input);
 };
 
-class GraphicalVisualizer {
+class GraphicalVisualizer { // consists of a queue of frames and methods that manipulate the queue and prints the frames in order
 private:
     std::queue<Frame> frame_queue;
 
@@ -57,13 +57,4 @@ public:
     void add_frame(Frame frame);
     void print_sequence(const std::chrono::milliseconds millis);
     void print_sequence_no_clear(const std::chrono::milliseconds millis);
-};
-
-struct Input { // TODO: finish it
-    size_t height_start;
-    size_t height_length;
-    size_t width_start;
-    size_t width_length;
-    char symbol;
-    std::string color;
 };

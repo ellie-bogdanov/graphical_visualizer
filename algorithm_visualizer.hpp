@@ -9,10 +9,10 @@
 
 using namespace std::chrono_literals;
 
-using grid = std::vector<std::pair<int, char const *>>;
+using grid = std::vector<std::pair<int, char const *>>; // represents the frame in heights of columns and remembers the color of the column
 const std::chrono::milliseconds millis_per_frame_algo_vis = 50ms;
 
-class AlgorithmVisualizer {
+class AlgorithmVisualizer { // consists of the visualizer to print the frames, a frame that is changing and different kind of sorting algos that works on grid
 private:
     GraphicalVisualizer visualizer;
     Frame to_sort;

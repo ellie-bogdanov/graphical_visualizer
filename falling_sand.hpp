@@ -16,7 +16,7 @@ const int MIN_SAND_LENGTH = 5;
 const int MAX_SAND_LENGTH = 50;
 const std::chrono::milliseconds millis_per_frame_falling_sand = 20ms;
 
-struct SandBlock {
+struct SandBlock { // represent a line of falling sand, each line consists of vector of pairs that represent the position of each sand particle within the block
     int length;
     int starting_position;
     char shape;
@@ -27,7 +27,7 @@ struct SandBlock {
     SandBlock(std::string color);
 };
 
-class FallingSand {
+class FallingSand { // consists of a frame that changes, the visualizer that prints the frames and a queue of sand blocks that after reaching a stop the next in queue falls
 private:
     Frame field;
     GraphicalVisualizer visualizer;

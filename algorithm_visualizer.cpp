@@ -28,7 +28,7 @@ void change_frame_colors(Frame &frame_to_color, char symbol_to_color) {
     }
 }
 
-AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(to_sort) {
+AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(to_sort) { // place the algorithm to visualize in the body remove or comment the others
 
     change_frame_colors(to_sort, SAND_SHAPE);
     grid frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
@@ -39,8 +39,9 @@ AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(t
     visualizer.print_sequence(millis_per_frame_algo_vis);
 }
 
-grid AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count) {
+grid AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count) { // converts a frame matrix into a vector of numbers and colors so the soring algos can work on it
     grid convert_to;
+    // calculate the height of each column
     for (size_t i = 0; i < convert_from[0].size(); ++i) {
         int symbol_counter = 0;
         char const *color = colors.at("reset");
@@ -55,8 +56,9 @@ grid AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char sy
     return convert_to;
 }
 
-frame_matrix AlgorithmVisualizer::num_to_frame_matrix(grid convert_from, char symbol_to_insert) {
+frame_matrix AlgorithmVisualizer::num_to_frame_matrix(grid convert_from, char symbol_to_insert) { // converts the grid back into a frame_matrix so it could be inserted into the visualizer queue
     frame_matrix convert_to;
+    // initializes a frame
     for (size_t i = 0; i < Frame::FRAME_HEIGHT; ++i) {
         std::vector<Pixel> line;
         for (size_t j = 0; j < Frame::FRAME_WIDTH; ++j)
@@ -66,6 +68,7 @@ frame_matrix AlgorithmVisualizer::num_to_frame_matrix(grid convert_from, char sy
     }
 
     int matrix_index = 0;
+    // places the shape and color to insert into the frame goes column by column
     for (auto height : convert_from) {
         if (height.first >= Frame::FRAME_HEIGHT)
             return {};
