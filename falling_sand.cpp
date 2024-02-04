@@ -2,15 +2,15 @@
 
 #include <random>
 
-int generate_random_length() {
+int fallind_sand::generate_random_length() {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(MIN_SAND_LENGTH, MAX_SAND_LENGTH); // distribution in range [MIN_SAND_LENGTH, MAX_SAND_LENGTH]
+    std::uniform_int_distribution<std::mt19937::result_type> dist(fallind_sand::MIN_SAND_LENGTH, fallind_sand::MAX_SAND_LENGTH); // distribution in range [MIN_SAND_LENGTH, MAX_SAND_LENGTH]
 
     return dist(rng);
 }
 
-int generate_random_start_pos(int sand_length) {
+int fallind_sand::generate_random_start_pos(int sand_length) {
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, Frame::FRAME_WIDTH - sand_length);
@@ -19,19 +19,19 @@ int generate_random_start_pos(int sand_length) {
 }
 
 SandBlock::SandBlock() { // generate random starting possition and length of the block and the pushes the particles into the vector of links
-    length = generate_random_length();
-    starting_position = generate_random_start_pos(length);
-    shape = SAND_SHAPE;
-    color = SAND_DEFAULT_COLOR;
+    length = fallind_sand::generate_random_length();
+    starting_position = fallind_sand::generate_random_start_pos(length);
+    shape = fallind_sand::SAND_SHAPE;
+    color = fallind_sand::SAND_DEFAULT_COLOR;
     for (size_t i = starting_position; i <= starting_position + length - 1; ++i) {
         links.push_back({0, i});
     }
 }
 
 SandBlock::SandBlock(std::string color) : color(color) { // same as without params but sets the color to the provided one instead of default const
-    length = generate_random_length();
-    starting_position = generate_random_start_pos(length);
-    shape = SAND_SHAPE;
+    length = fallind_sand::generate_random_length();
+    starting_position = fallind_sand::generate_random_start_pos(length);
+    shape = fallind_sand::SAND_SHAPE;
     for (size_t i = starting_position; i <= starting_position + length - 1; ++i) {
         links.push_back({0, i});
     }
@@ -42,11 +42,11 @@ FallingSand::FallingSand() {
     // simulate_fall();
     simualte_diag_fall();
     system("clear");
-    visualizer.print_sequence(millis_per_frame_falling_sand);
+    visualizer.print_sequence(fallind_sand::MILLIS_PER_FRAME);
 }
 
 void FallingSand::generate_sand_blocks() {
-    for (size_t i = 1; i <= SAND_BLOCK_AMOUNT; ++i) {
+    for (size_t i = 1; i <= fallind_sand::SAND_BLOCK_AMOUNT; ++i) {
 
         sand_blocks.push(SandBlock());
     }
@@ -83,7 +83,7 @@ void FallingSand::simulate_fall() { // the simulation itself this is version wit
     }
 }
 
-int generate_random_direction() { // generates random direction for diag fall either fall left or right
+int fallind_sand::generate_random_direction() { // generates random direction for diag fall either fall left or right
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, 1);
@@ -122,8 +122,8 @@ void FallingSand::simualte_diag_fall() {
                         }
                     }
 
-                    int direction = (generate_random_direction() == 0 && move_diag_left) ? -1 : (move_diag_right) ? 1
-                                                                                                                  : 0;
+                    int direction = (fallind_sand::generate_random_direction() == 0 && move_diag_left) ? -1 : (move_diag_right) ? 1
+                                                                                                                                : 0;
 
                     new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
                     current_block.links[i].first += (move_down ? 1 : 0);

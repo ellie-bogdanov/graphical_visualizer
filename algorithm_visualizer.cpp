@@ -3,7 +3,7 @@
 #include <iostream>
 #include <random>
 
-char const *generate_random_color() {
+char const *algo_vis::generate_random_color() {
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, colors.size() - 1);
@@ -16,11 +16,11 @@ char const *generate_random_color() {
     return it->second;
 }
 
-void change_frame_colors(Frame &frame_to_color, char symbol_to_color) {
+void algo_vis::change_frame_colors(Frame &frame_to_color, char symbol_to_color) {
 
     for (size_t j = 0; j < frame_to_color.current_frame[0].size(); ++j) {
 
-        char const *color = generate_random_color();
+        char const *color = algo_vis::generate_random_color();
         for (size_t i = 0; i < frame_to_color.current_frame.size(); ++i) {
             if (frame_to_color.current_frame[i][j].character == symbol_to_color)
                 frame_to_color.current_frame[i][j].color_code = color;
@@ -30,13 +30,13 @@ void change_frame_colors(Frame &frame_to_color, char symbol_to_color) {
 
 AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(to_sort) { // place the algorithm to visualize in the body remove or comment the others
 
-    change_frame_colors(to_sort, SAND_SHAPE);
+    algo_vis::change_frame_colors(to_sort, fallind_sand::SAND_SHAPE);
     grid frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
     // bubble_sort(frame_to_vec, symbol);
     //  merge_sort(frame_to_vec, symbol);
     quick_sort(frame_to_vec, symbol, 0, frame_to_vec.size());
     system("clear");
-    visualizer.print_sequence(millis_per_frame_algo_vis);
+    visualizer.print_sequence(algo_vis::MILLIS_PER_FRAME);
 }
 
 grid AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count) { // converts a frame matrix into a vector of numbers and colors so the soring algos can work on it

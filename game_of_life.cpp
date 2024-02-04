@@ -2,7 +2,7 @@
 
 #include <set>
 
-bool is_cell_alive(frame_matrix const &grid, size_t x, size_t y) {
+bool game_of_life::is_cell_alive(frame_matrix const &grid, size_t x, size_t y) {
     int amount_of_neighbors = 0;
     if (x > 0) {
         if (grid[y][x - 1].character == game_of_life::CELL_SHAPE)
@@ -36,7 +36,7 @@ bool is_cell_alive(frame_matrix const &grid, size_t x, size_t y) {
     return true;
 }
 
-void simulate_game_of_life(Frame &frame, size_t amount_of_cycles, void (*game_conf)(frame_matrix &)) {
+void game_of_life::simulate_game_of_life(Frame &frame, size_t amount_of_cycles, void (*game_conf)(frame_matrix &)) {
     GraphicalVisualizer visualizer;
     game_conf(frame.current_frame);
     visualizer.add_frame(frame);
@@ -44,7 +44,7 @@ void simulate_game_of_life(Frame &frame, size_t amount_of_cycles, void (*game_co
         std::set<std::pair<size_t, size_t>> alive_cells;
         for (size_t i = 0; i < Frame::FRAME_HEIGHT; ++i) {
             for (size_t j = 0; j < Frame::FRAME_WIDTH; ++j) {
-                if (is_cell_alive(frame.current_frame, j, i))
+                if (game_of_life::is_cell_alive(frame.current_frame, j, i))
                     alive_cells.insert({j, i});
             }
         }
@@ -59,14 +59,13 @@ void simulate_game_of_life(Frame &frame, size_t amount_of_cycles, void (*game_co
         }
         visualizer.add_frame(frame);
     }
-    visualizer.print_sequence(game_of_life::millis_per_frame_game_of_life);
+    visualizer.print_sequence(game_of_life::MILLIS_PER_FRAME);
 }
 
-void glider_gun_conf(frame_matrix &grid) {
+void game_of_life::glider_gun_conf(frame_matrix &grid) {
     size_t ref_point_y = Frame::FRAME_HEIGHT / 4;
     size_t ref_point_x = Frame::FRAME_WIDTH / 4;
 
-    using namespace game_of_life;
     // left square
     grid[ref_point_y][ref_point_x] = {CELL_SHAPE, colors.at(CELL_COLOR)};
     grid[ref_point_y + 1][ref_point_x] = {CELL_SHAPE, colors.at(CELL_COLOR)};

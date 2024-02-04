@@ -10,7 +10,12 @@
 using namespace std::chrono_literals;
 
 using grid = std::vector<std::pair<int, char const *>>; // represents the frame in heights of columns and remembers the color of the column
-const std::chrono::milliseconds millis_per_frame_algo_vis = 50ms;
+namespace algo_vis {
+    const std::chrono::milliseconds MILLIS_PER_FRAME = 50ms;
+
+    char const *generate_random_color();
+    void change_frame_colors(Frame &frame_to_color, char symbol_to_color);
+}
 
 class AlgorithmVisualizer { // consists of the visualizer to print the frames, a frame that is changing and different kind of sorting algos that works on grid
 private:
