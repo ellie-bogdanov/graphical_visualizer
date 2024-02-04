@@ -103,29 +103,34 @@ void FallingSand::simualte_diag_fall() {
 
             for (size_t i = 0; i < current_block.links.size(); ++i) {
                 std::pair<size_t, size_t> link = current_block.links[i];
-                // same as without diag fall but it does not stop when encounters anothe particle below
-                if (link.first != Frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].character != current_block.shape) {
-                    did_move = true;
-                    new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
-                    current_block.links[i].first += 1;
 
-                    new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
-                } else if (link.first != Frame::FRAME_HEIGHT - 1 && field.get_current_frame()[link.first + 1][link.second].character == current_block.shape) {
+                if (link.first != Frame::FRAME_HEIGHT - 1) {
+                    bool move_down = false;
+                    bool move_diag_left = false;
+                    bool move_diag_right = false;
 
-                    int direction = generate_random_direction();
-
-                    // checks if generated 1 in direction and also for bounds and posibility to fall diagonally to the left else checks right
-                    if (link.second != Frame::FRAME_WIDTH - 1 && direction == 1 && field.get_current_frame()[link.first + 1][link.second + 1].character != current_block.shape) {
-                        new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
-                        current_block.links[i].first += 1;
-                        current_block.links[i].second += 1;
-                        new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
-                    } else if (link.second != 0 && field.get_current_frame()[link.first + 1][link.second - 1].character != current_block.shape) {
-                        new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
-                        current_block.links[i].first += 1;
-                        current_block.links[i].second -= 1;
-                        new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
+                    if (field.get_current_frame()[link.first + 1][link.second].character != current_block.shape) {
+                        move_down = true;
+                    } else {
+                        if (link.second != Frame::FRAME_WIDTH - 1 && field.get_current_frame()[link.first + 1][link.second + 1].character != current_block.shape) {
+                            move_diag_right = true;
+                            move_down = true;
+                        }
+                        if (link.second != 0 && field.get_current_frame()[link.first + 1][link.second - 1].character != current_block.shape) {
+                            move_diag_left = true;
+                            move_down = true;
+                        }
                     }
+
+                    int direction = (generate_random_direction() == 0 && move_diag_left) ? -1 : (move_diag_right) ? 1
+                                                                                                                  : 0;
+
+                    new_frame[current_block.links[i].first][current_block.links[i].second] = {Frame::BACKGROUND, colors.at("reset")};
+                    current_block.links[i].first += (move_down ? 1 : 0);
+                    current_block.links[i].second += direction;
+                    new_frame[current_block.links[i].first][current_block.links[i].second] = {current_block.shape, colors.at(current_block.color)};
+                    if (move_down)
+                        did_move = true;
                 }
             }
 

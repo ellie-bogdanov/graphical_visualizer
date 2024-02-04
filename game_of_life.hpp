@@ -7,7 +7,7 @@ using namespace std::chrono_literals;
 
 namespace game_of_life {
     char const CELL_SHAPE = '*';
-    std::string const CELL_COLOR = "blue";
+    std::string const CELL_COLOR = "green";
     const std::chrono::milliseconds millis_per_frame_game_of_life = 100ms;
 }
 

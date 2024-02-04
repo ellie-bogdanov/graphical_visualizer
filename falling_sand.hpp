@@ -9,11 +9,11 @@
 
 using namespace std::chrono_literals;
 
-const char SAND_SHAPE = '@';
-const std::string SAND_DEFAULT_COLOR = "red";
-const int SAND_BLOCK_AMOUNT = 20;
-const int MIN_SAND_LENGTH = 5;
-const int MAX_SAND_LENGTH = 50;
+const char SAND_SHAPE = '*';
+const std::string SAND_DEFAULT_COLOR = "yellow";
+const int SAND_BLOCK_AMOUNT = 25;
+const int MIN_SAND_LENGTH = 15;
+const int MAX_SAND_LENGTH = 70;
 const std::chrono::milliseconds millis_per_frame_falling_sand = 20ms;
 
 struct SandBlock { // represent a line of falling sand, each line consists of vector of pairs that represent the position of each sand particle within the block

@@ -111,4 +111,5 @@ void glider_gun_conf(frame_matrix &grid) {
     grid[ref_point_y - 2][ref_point_x + 4] = {CELL_SHAPE, colors.at(CELL_COLOR)};
     grid[ref_point_y + 3][ref_point_x + 4] = {CELL_SHAPE, colors.at(CELL_COLOR)};
     grid[ref_point_y + 4][ref_point_x + 4] = {CELL_SHAPE, colors.at(CELL_COLOR)};
+    // right part
 }
