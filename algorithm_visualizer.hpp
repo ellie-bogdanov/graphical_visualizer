@@ -14,16 +14,16 @@ namespace algo_vis {
     const std::chrono::milliseconds MILLIS_PER_FRAME = 50ms;
 
     char const *generate_random_color();
-    void change_frame_colors(Frame &frame_to_color, char symbol_to_color);
+    void change_frame_colors(frame &frame_to_color, char symbol_to_color);
 }
 
-class AlgorithmVisualizer { // consists of the visualizer to print the frames, a frame that is changing and different kind of sorting algos that works on grid
+class algorithm_visualizer { // consists of the visualizer to print the frames, a frame that is changing and different kind of sorting algos that works on grid
 private:
     GraphicalVisualizer visualizer;
-    Frame to_sort;
+    frame to_sort;
 
 public:
-    AlgorithmVisualizer(Frame to_sort, char symbol);
+    algorithm_visualizer(frame to_sort, char symbol);
 
     std::vector<std::pair<int, char const *>> frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count);
     frame_matrix num_to_frame_matrix(std::vector<std::pair<int, char const *>> convert_from, char symbol_to_insert);

@@ -21,7 +21,7 @@ struct Pixel { // represents every single character on terminal
 
 using frame_matrix = std::vector<std::vector<Pixel>>;
 
-class Frame { // consists of a pixel matrix, methods to manipulate and print the frame and consts for more flexebility
+class frame { // consists of a pixel matrix, methods to manipulate and print the frame and consts for more flexebility
 private:
     void initialize_frame();
 
@@ -35,26 +35,26 @@ public:
     const static char INPUT_DELIMITER = ',';
     const static char BACKGROUND = ' ';
 
-    Frame();
-    Frame(std::string const &input);
+    frame();
+    frame(std::string const &input);
 
     frame_matrix get_current_frame() const;
     void alter_frame(std::string const &input);
     void set_current_frame(frame_matrix const &new_current_frame);
     void print_frame();
-    void print_frame(Frame const &prev_frame);
+    void print_frame(frame const &prev_frame);
     bool parse_input(std::string const &input);
 };
 
 class GraphicalVisualizer { // consists of a queue of frames and methods that manipulate the queue and prints the frames in order
 private:
-    std::queue<Frame> frame_queue;
+    std::queue<frame> frame_queue;
 
 public:
     GraphicalVisualizer();
 
-    std::queue<Frame> get_frame_queue() const;
-    void add_frame(Frame frame);
+    std::queue<frame> get_frame_queue() const;
+    void add_frame(frame frame);
     void print_sequence(const std::chrono::milliseconds millis);
     void print_sequence_no_clear(const std::chrono::milliseconds millis);
 };

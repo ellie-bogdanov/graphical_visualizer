@@ -16,7 +16,7 @@ char const *algo_vis::generate_random_color() {
     return it->second;
 }
 
-void algo_vis::change_frame_colors(Frame &frame_to_color, char symbol_to_color) {
+void algo_vis::change_frame_colors(frame &frame_to_color, char symbol_to_color) {
 
     for (size_t j = 0; j < frame_to_color.current_frame[0].size(); ++j) {
 
@@ -28,18 +28,18 @@ void algo_vis::change_frame_colors(Frame &frame_to_color, char symbol_to_color) 
     }
 }
 
-AlgorithmVisualizer::AlgorithmVisualizer(Frame to_sort, char symbol) : to_sort(to_sort) { // place the algorithm to visualize in the body remove or comment the others
+algorithm_visualizer::algorithm_visualizer(frame to_sort, char symbol) : to_sort(to_sort) { // place the algorithm to visualize in the body remove or comment the others
 
     algo_vis::change_frame_colors(to_sort, fallind_sand::SAND_SHAPE);
     grid frame_to_vec = frame_matrix_to_num(to_sort.current_frame, symbol);
     // bubble_sort(frame_to_vec, symbol);
     //  merge_sort(frame_to_vec, symbol);
     quick_sort(frame_to_vec, symbol, 0, frame_to_vec.size());
-    system("clear");
+    int command_value = system("clear");
     visualizer.print_sequence(algo_vis::MILLIS_PER_FRAME);
 }
 
-grid AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count) { // converts a frame matrix into a vector of numbers and colors so the soring algos can work on it
+grid algorithm_visualizer::frame_matrix_to_num(frame_matrix convert_from, char symbol_to_count) { // converts a frame matrix into a vector of numbers and colors so the soring algos can work on it
     grid convert_to;
     // calculate the height of each column
     for (size_t i = 0; i < convert_from[0].size(); ++i) {
@@ -56,13 +56,13 @@ grid AlgorithmVisualizer::frame_matrix_to_num(frame_matrix convert_from, char sy
     return convert_to;
 }
 
-frame_matrix AlgorithmVisualizer::num_to_frame_matrix(grid convert_from, char symbol_to_insert) { // converts the grid back into a frame_matrix so it could be inserted into the visualizer queue
+frame_matrix algorithm_visualizer::num_to_frame_matrix(grid convert_from, char symbol_to_insert) { // converts the grid back into a frame_matrix so it could be inserted into the visualizer queue
     frame_matrix convert_to;
     // initializes a frame
-    for (size_t i = 0; i < Frame::FRAME_HEIGHT; ++i) {
+    for (size_t i = 0; i < frame::FRAME_HEIGHT; ++i) {
         std::vector<Pixel> line;
-        for (size_t j = 0; j < Frame::FRAME_WIDTH; ++j)
-            line.push_back({Frame::BACKGROUND, colors.at("reset")});
+        for (size_t j = 0; j < frame::FRAME_WIDTH; ++j)
+            line.push_back({frame::BACKGROUND, colors.at("reset")});
 
         convert_to.push_back(line);
     }
@@ -70,7 +70,7 @@ frame_matrix AlgorithmVisualizer::num_to_frame_matrix(grid convert_from, char sy
     int matrix_index = 0;
     // places the shape and color to insert into the frame goes column by column
     for (auto height : convert_from) {
-        if (height.first >= Frame::FRAME_HEIGHT)
+        if (height.first >= frame::FRAME_HEIGHT)
             return {};
         for (int j = 0; j < height.first; ++j) {
             convert_to[convert_to.size() - j - 1][matrix_index] = {symbol_to_insert, height.second};
@@ -80,7 +80,7 @@ frame_matrix AlgorithmVisualizer::num_to_frame_matrix(grid convert_from, char sy
     return convert_to;
 }
 
-void AlgorithmVisualizer::bubble_sort(grid &vect_to_sort, char symbol) {
+void algorithm_visualizer::bubble_sort(grid &vect_to_sort, char symbol) {
 
     for (size_t i = 0; i < vect_to_sort.size() - 1; ++i) {
         bool is_swapped = false;
@@ -97,7 +97,7 @@ void AlgorithmVisualizer::bubble_sort(grid &vect_to_sort, char symbol) {
     }
 }
 
-void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol) {
+void algorithm_visualizer::merge_sort(grid &vect_to_sort, char symbol) {
     if (vect_to_sort.size() <= 1)
         return;
 
@@ -131,7 +131,7 @@ void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol) {
 }
 
 // same as the default merge_sort but with saving the new vector shape so the frame can show the whole vector changing
-void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol, size_t start, size_t end, grid &printable_frame) {
+void algorithm_visualizer::merge_sort(grid &vect_to_sort, char symbol, size_t start, size_t end, grid &printable_frame) {
     if (vect_to_sort.size() <= 1)
         return;
 
@@ -171,7 +171,7 @@ void AlgorithmVisualizer::merge_sort(grid &vect_to_sort, char symbol, size_t sta
     visualizer.add_frame(to_sort);
 }
 
-void AlgorithmVisualizer::quick_sort(grid &vect_to_sort, char symbol, size_t start, size_t end) {
+void algorithm_visualizer::quick_sort(grid &vect_to_sort, char symbol, size_t start, size_t end) {
     if (end - start <= 0)
         return;
 

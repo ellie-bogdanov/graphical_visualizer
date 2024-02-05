@@ -14,11 +14,11 @@ int main(int, char **) {
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    FallingSand simualtion;
+    falling_sand simualtion;
     std::this_thread::sleep_for(1000ms);
-    AlgorithmVisualizer algo_vis(simualtion.get_field(), fallind_sand::SAND_SHAPE);
+    algorithm_visualizer algo_vis(simualtion.get_field(), fallind_sand::SAND_SHAPE);
     std::this_thread::sleep_for(1000ms);
-    Frame frame;
+    frame frame;
     game_of_life::simulate_game_of_life(frame, 200, &game_of_life::glider_gun_conf);
 
     auto end = std::chrono::high_resolution_clock::now();

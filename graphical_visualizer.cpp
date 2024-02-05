@@ -17,24 +17,24 @@ bool Pixel::operator!=(Pixel const &compare) {
     return character != compare.character || !std::strcmp(color_code, compare.color_code);
 }
 
-Frame::Frame() { initialize_frame(); }   // without parameters initializes the frame to an empty frame of FRAME::HEIGHT * FRAME::WIDTH filled with white FRAME::BACKGROUND characters
-Frame::Frame(const std::string &input) { // with input from user initilizes the frame and sets it to according to the input
+frame::frame() { initialize_frame(); }   // without parameters initializes the frame to an empty frame of FRAME::HEIGHT * FRAME::WIDTH filled with white FRAME::BACKGROUND characters
+frame::frame(const std::string &input) { // with input from user initilizes the frame and sets it to according to the input
     initialize_frame();
     alter_frame(input);
 }
 
-frame_matrix Frame::get_current_frame() const { return current_frame; }
+frame_matrix frame::get_current_frame() const { return current_frame; }
 
-void Frame::alter_frame(std::string const &input) { // if parse_input found invalid input prints the message otherwise parse_input just does the job of actually altering the frame
+void frame::alter_frame(std::string const &input) { // if parse_input found invalid input prints the message otherwise parse_input just does the job of actually altering the frame
     if (!parse_input(input))
         std::cout << "Invalid input \n";
 }
 
-void Frame::set_current_frame(frame_matrix const &new_current_frame) {
+void frame::set_current_frame(frame_matrix const &new_current_frame) {
     current_frame = new_current_frame;
 }
 
-void Frame::print_frame() { // prints frame char by char first sets the color of the char then prints the char itself and then resets the color back to white
+void frame::print_frame() { // prints frame char by char first sets the color of the char then prints the char itself and then resets the color back to white
     for (auto const &line : current_frame) {
         for (auto const &current_pixel : line) {
             std::cout << current_pixel.color_code << current_pixel.character;
@@ -45,7 +45,7 @@ void Frame::print_frame() { // prints frame char by char first sets the color of
     }
 }
 
-void Frame::print_frame(Frame const &prev_frame) { // prints the frame using goto, used to print the frame without calling system("clear") every frame
+void frame::print_frame(frame const &prev_frame) { // prints the frame using goto, used to print the frame without calling system("clear") every frame
     for (size_t i = 0; i < FRAME_HEIGHT; ++i) {
         for (size_t j = 0; j < FRAME_WIDTH; ++j) {
             if (current_frame[i][j] != prev_frame.current_frame[i][j]) {
@@ -57,7 +57,7 @@ void Frame::print_frame(Frame const &prev_frame) { // prints the frame using got
     }
 }
 
-bool Frame::parse_input(std::string const &input) { // parses the input that consists of "heigh_start,height_length,range_start,range_length,shape,color"
+bool frame::parse_input(std::string const &input) { // parses the input that consists of "heigh_start,height_length,range_start,range_length,shape,color"
     std::stringstream input_stream(input);
 
     std::string input_sections[AMOUNT_OF_INPUT_OPTIONS];
@@ -91,7 +91,7 @@ bool Frame::parse_input(std::string const &input) { // parses the input that con
     return true;
 }
 
-void Frame::initialize_frame() { // initializes the frame with Frame::BACKGROUND and white color
+void frame::initialize_frame() { // initializes the frame with Frame::BACKGROUND and white color
     for (size_t i = 0; i < FRAME_HEIGHT; ++i) {
         std::vector<Pixel> line;
         line.reserve(FRAME_WIDTH);
@@ -111,7 +111,7 @@ bool is_a_number(std::string const &number) {
     return true;
 }
 
-bool Frame::is_valid_input(std::string const &height_start, std::string const &height_length, std::string const &range_start, std::string const &range_length, std::string const &printable_char, std::string const &color) {
+bool frame::is_valid_input(std::string const &height_start, std::string const &height_length, std::string const &range_start, std::string const &range_length, std::string const &printable_char, std::string const &color) {
 
     auto pos = colors.find(color);
 
@@ -140,14 +140,14 @@ bool Frame::is_valid_input(std::string const &height_start, std::string const &h
 
 GraphicalVisualizer::GraphicalVisualizer() { frame_queue = {}; } // initializes an empty queue
 
-std::queue<Frame> GraphicalVisualizer::get_frame_queue() const {
+std::queue<frame> GraphicalVisualizer::get_frame_queue() const {
     return frame_queue;
 }
 
-void GraphicalVisualizer::add_frame(Frame frame) { frame_queue.push(frame); } 
+void GraphicalVisualizer::add_frame(frame frame_object) { frame_queue.push(frame_object); }
 
 void GraphicalVisualizer::print_sequence(const std::chrono::milliseconds millis) { // accepts a parameter of time between each frame
-    std::queue<Frame> local_temp_queue = frame_queue;
+    std::queue<frame> local_temp_queue = frame_queue;
 
     while (local_temp_queue.size() > 1) { // prints the frame then pops it from the queue, sleeps for provided time and clears the terminal for the next frame
 
@@ -155,7 +155,7 @@ void GraphicalVisualizer::print_sequence(const std::chrono::milliseconds millis)
         local_temp_queue.pop();
 
         std::this_thread::sleep_for(millis);
-        system("clear");
+        int command_value = system("clear");
     }
 
     local_temp_queue.front().print_frame(); // prints last frame without clearing it from the terminal
@@ -164,18 +164,17 @@ void GraphicalVisualizer::print_sequence(const std::chrono::milliseconds millis)
 
 // prints the frames same as print_sequence but without using system("clear") insted providing the previous frame so it can just update the pixels that are different
 void GraphicalVisualizer::print_sequence_no_clear(const std::chrono::milliseconds millis) {
-    std::queue<Frame> local_temp_queue = frame_queue;
+    std::queue<frame> local_temp_queue = frame_queue;
     local_temp_queue.front().print_frame();
     while (local_temp_queue.size() > 1) {
-        Frame last_frame = local_temp_queue.front();
+        frame last_frame = local_temp_queue.front();
         local_temp_queue.pop();
         local_temp_queue.front().print_frame(last_frame);
 
         std::this_thread::sleep_for(millis);
-        // system("clear");
     }
 
     local_temp_queue.front().print_frame();
     local_temp_queue.pop();
-    system("clear");
+    int command_value = system("clear");
 }
